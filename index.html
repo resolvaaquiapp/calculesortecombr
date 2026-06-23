@@ -2,46 +2,59 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calcule Sorte · Gerador de Número da Sorte</title>
+  <meta name="viewport" 
+   content="width=device-width, 
+   initial-scale=1.0">
+  <title>Calcule Sorte</title>
   
-  <!-- Fontes Premium Legíveis -->
+  <!-- Fontes Legíveis -->
   <link href="https://googleapis.com" rel="stylesheet">
   
-  <!-- Arquivo de visual separado -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Arquivo de Visual -->
+  <link rel="stylesheet" 
+   href="style.css">
 </head>
 <body>
 <div class="wrap">
 
-  <!-- TOPO 100% CENTRALIZADO -->
+  <!-- BANNER NO TOPO ABSOLUTO -->
+  <div class="container-banner-centralizado" 
+   id="banner-topo"></div>
+
+  <!-- CABEÇALHO CENTRALIZADO -->
   <header class="topo-centralizado">
-    <img src="logo.png" alt="Logo Calcule Sorte" class="logo-img">
-    <div class="logo-titulo">CALCULE SORTE</div>
-    <div class="logo-slogan">Transformando datas em possibilidades</div>
+    <img src="logo.png" 
+     alt="Logo Calcule Sorte" 
+     class="logo-img">
+    <div class="logo-slogan">
+      Transformando datas 
+      em possibilidades
+    </div>
   </header>
-
-  <!-- BANNER PUBLICITÁRIO DO TOPO CENTRALIZADO -->
-  <div class="container-banner-centralizado" id="banner-topo"></div>
-
-  <!-- TELA 1: FORMULÁRIO DE ENTRADA PREMIUM -->
-  <div class="caixa-formulario" id="tela-formulario">
+  <!-- TELA 1: FORMULÁRIO DE ENTRADA -->
+  <div class="caixa-formulario" 
+   id="tela-formulario">
+    
     <div class="campo-grupo">
       <label>Seu Nome Completo:</label>
-      <input type="text" id="input-nome" class="campo-input" placeholder="Digite seu nome">
+      <input type="text" 
+       id="input-nome" 
+       class="campo-input" 
+       placeholder="Digite seu nome">
     </div>
     
-    <!-- NOVAS CAIXAS DE DATA INDEPENDENTES E ACESSÍVEIS -->
+    <!-- GRADE DAS 3 CAIXAS DE DATA -->
     <div class="campo-grupo">
       <label>Sua Data de Nascimento:</label>
       <div class="grade-selecao-data">
         
-        <select id="select-dia" class="campo-input-selecao">
+        <select id="select-dia" 
+         class="campo-input-selecao">
           <option value="">Dia</option>
-          <!-- Os dias de 01 a 31 serão gerados automaticamente via script -->
         </select>
 
-        <select id="select-mes" class="campo-input-selecao">
+        <select id="select-mes" 
+         class="campo-input-selecao">
           <option value="">Mês</option>
           <option value="01">Janeiro</option>
           <option value="02">Fevereiro</option>
@@ -57,9 +70,9 @@
           <option value="12">Dezembro</option>
         </select>
 
-        <select id="select-ano" class="campo-input-selecao">
+        <select id="select-ano" 
+         class="campo-input-selecao">
           <option value="">Ano</option>
-          <!-- Os anos de 2026 até 1900 serão gerados automaticamente via script -->
         </select>
 
       </div>
@@ -67,66 +80,157 @@
     
     <div class="campo-grupo">
       <label>Seu WhatsApp com DDD:</label>
-      <input type="tel" id="input-whats" class="campo-input" placeholder="(11) 99999-9999">
+      <input type="tel" 
+       id="input-whats" 
+       class="campo-input" 
+       placeholder="(11) 99999-9999">
     </div>
     
-    <button class="btn-principal" onclick="processarCalculoSorte()">Calcular Minha Sorte 🔮</button>
+    <!-- SEU BOTÃO MÁGICO DO SEU JEITO -->
+    <button class="btn-principal" 
+     onclick="processarCalculoSorte()">
+      CALCULE SORTE 🍀
+    </button>
   </div>
 
   <!-- TELA DE CARREGAMENTO MÁGICO -->
   <div id="tela-carregamento">
-    <div class="texto-carregamento" id="mensagem-loading">Conectando ao plano astral...</div>
+    <div class="texto-carregamento" 
+     id="mensagem-loading">
+      Conectando ao plano astral...
+    </div>
   </div>
-
-  <!-- TELA 2: CERTIFICADO DE SORTE (RESULTADO) -->
+  <!-- TELA 2: CERTIFICADO DE SORTE -->
   <div id="tela-resultado">
-    <div style="font-size:22px; text-transform:uppercase; letter-spacing:1px;">Seu Anjo Regente Protetor é</div>
-    <div class="resultado-anjo-nome" id="nome-do-anjo">ANJO</div>
-    <div class="resultado-anjo-mensagem" id="mensagem-do-anjo">Mensagem protetora aqui.</div>
+    <div style="font-size:20px; 
+     text-transform:uppercase;">
+      Seu Anjo Regente Protetor é
+    </div>
     
-    <div style="font-size:22px; color:var(--gold-light); font-weight:800; text-transform:uppercase; letter-spacing:1px;">Seus Números para a Mega-Sena:</div>
-    <div class="grade-dezenas" id="bloco-dezenas"></div>
+    <div class="resultado-anjo-nome" 
+     id="nome-do-anjo">ANJO</div>
     
-    <button class="btn-principal" id="btn-acao-resultado" onclick="voltarParaInicio()">Calcular Novo Jogo 🔄</button>
-    <div style="margin-top:20px; font-size:18px; color:var(--text-muted);" id="contador-jogos">Você usou 0 de 30 consultas gratuitas.</div>
+    <div class="resultado-anjo-mensagem" 
+     id="mensagem-do-anjo">
+      Mensagem protetora aqui.
+    </div>
+    
+    <div style="font-size:20px; 
+     font-weight:800; 
+     text-transform:uppercase;">
+      Seus Números para a Mega-Sena:
+    </div>
+    
+    <div class="grade-dezenas" 
+     id="bloco-dezenas"></div>
+    
+    <button class="btn-principal" 
+     id="btn-acao-resultado" 
+     onclick="voltarParaInicio()">
+      Calcular Novo Jogo 🔄
+    </button>
+    
+    <div style="margin-top:15px; 
+     font-size:16px;" 
+     id="contador-jogos">
+      Você usou 0 de 30 consultas grátis.
+    </div>
   </div>
 
-  <!-- TELA 3: OFERTA CLUBE VIP (OCULTA ATÉ O BLOQUEIO) -->
-  <div class="caixa-planos" id="tela-planos">
-    <h2 style="color:var(--gold); font-family:'Cinzel', serif; font-size:36px; margin-bottom:15px;">CLUBE VIP</h2>
-    <p style="margin-bottom:35px; color:var(--text-white); font-size:22px;">Você atingiu o limite máximo de 30 consultas gratuitas mensais. Assine para continuar obtendo seus números:</p>
+  <!-- TELA 3: OFERTA CLUBE VIP -->
+  <div class="caixa-planos" 
+   id="tela-planos">
     
+    <h2 style="font-family:'Cinzel', serif; 
+     font-size:32px; 
+     margin-bottom:10px;">
+      CLUBE VIP
+    </h2>
+    
+    <p style="margin-bottom:30px; 
+     font-size:20px;">
+      Você atingiu o limite de 30 jogos. 
+      Assine para ter acesso ILIMITADO:
+    </p>
+    
+    <!-- CARD DO PLANO DE R$ 4,90 -->
     <div class="card-plano">
-      <h3 style="font-size:26px; color:var(--gold-light);">🥈 PLANO ACESSO VIP (Resumido)</h3>
-      <p style="margin-top:8px; color:var(--text-muted); font-size:18px;">Uso diário liberado com combos de até 3 jogos por consulta enviados via Zap.</p>
-      <div class="preco-plano">R$ 4,90 / mês</div>
-      <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar">Quero Acesso VIP 👑</a>
+      <h3 style="font-size:23px;">
+        🥈 PLANO ACESSO VIP
+      </h3>
+      <p style="margin-top:5px; 
+       font-size:16px;">
+        Combos de até 3 jogos por clique 
+        + Certificado resumido no Zap.
+      </p>
+      <div class="preco-plano">
+        R$ 4,90 / mês
+      </div>
+      <a href="https://mercadopago.com.br" 
+       target="_blank" 
+       class="btn-comprar">
+        Ativar Acesso VIP 👑
+      </a>
     </div>
 
-    <div class="card-plano" style="border-color:var(--gold); background-color: rgba(255,215,0,0.02);">
-      <h3 style="font-size:26px; color:var(--gold);">🥇 PLANO EXPERT (Completo)</h3>
-      <p style="margin-top:8px; color:var(--text-muted); font-size:18px;">Combos de 6 ou 10 jogos por consulta + Envio do Certificado de Sorte completo em PDF via Zap.</p>
-      <div class="preco-plano">R$ 9,90 / mês</div>
-      <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar" style="background:linear-gradient(135deg, #FFF, var(--gold));">Quero Plano Expert 🏆</a>
+    <!-- CARD DO PLANO DE R$ 9,90 -->
+    <div class="card-plano">
+      <h3 style="font-size:23px;">
+        🥇 PLANO EXPERT
+      </h3>
+      <p style="margin-top:5px; 
+       font-size:16px;">
+        Combos de 6 ou 10 jogos por clique 
+        + Certificado profundo em PDF no Zap.
+      </p>
+      <div class="preco-plano">
+        R$ 9,90 / mês
+      </div>
+      <a href="https://mercadopago.com.br" 
+       target="_blank" 
+       class="btn-comprar">
+        Ativar Plano Expert 🏆
+      </a>
     </div>
   </div>
+  <!-- BANNER PUBLICITÁRIO DO RODAPÉ -->
+  <div class="container-banner-centralizado" 
+   id="banner-rodape"></div>
 
-  <!-- BANNER PUBLICITÁRIO DO RODAPÉ CENTRALIZADO -->
-  <div class="container-banner-centralizado" id="banner-rodape"></div>
-
-  <!-- RODAPÉ COMPACTO E CENTRALIZADO -->
+  <!-- RODAPÉ CENTRALIZADO CLEAN -->
   <footer class="rodape-centralizado">
-    <div style="font-size:15px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:20px; letter-spacing:1px; line-height:1.5;">
-      DADOS VIA API OFICIAL CAIXA ◆ PROBABILIDADES CALCULADAS MATEMATICAMENTE ◆ JOGUE WITH RESPONSABILIDADE 🍀
+    
+    <div style="font-size:14px; 
+     font-weight:800; 
+     color:var(--gold); 
+     text-transform:uppercase; 
+     margin-bottom:15px; 
+     letter-spacing:1px; 
+     line-height:1.5;">
+      DADOS VIA API OFICIAL CAIXA ◆ PROBABILIDADES CALCULADAS MATEMATICAMENTE ◆ JOGUE COM RESPONSABILIDADE 🍀
     </div>
 
+    <!-- Links Discretos solicitados -->
     <div class="links-rodape-discretos">
-      <span class="link-juridico-item" onclick="abrirModalJuridico('termos')">Termos de Uso</span>
-      <span class="link-juridico-item" onclick="abrirModalJuridico('privacidade')">Políticas de Privacidade</span>
-      <span class="link-juridico-item" onclick="abrirModalJuridico('aviso')">Aviso Legal</span>
+      <span class="link-juridico-item" 
+       onclick="abrirModalJuridico('termos')">
+        Termos de Uso
+      </span>
+      <span class="link-juridico-item" 
+       onclick="abrirModalJuridico('privacidade')">
+        Políticas de Privacidade
+      </span>
+      <span class="link-juridico-item" 
+       onclick="abrirModalJuridico('aviso')">
+        Aviso Legal
+      </span>
     </div>
 
-    <div style="font-family:'Cinzel', serif; font-size:15px; color:var(--text-white); letter-spacing:2px; margin-top:20px;">
+    <div style="font-family:'Cinzel', serif; 
+     font-size:14px; 
+     color:var(--text-white); 
+     letter-spacing:2px; 
+     margin-top:15px;">
       CALCULE SORTE · Transformando datas em possibilidades
     </div>
   </footer>
@@ -134,11 +238,26 @@
 </div>
 
 <!-- JANELA MODAL FLUTUANTE DE TEXTOS LEGAIS -->
-<div class="modal-juridico-overlay" id="janela-juridica">
+<div class="modal-juridico-overlay" 
+ id="janela-juridica">
   <div class="modal-juridico-caixa">
-    <h2 class="modal-juridico-titulo" id="titulo-juridico">Documento Legal</h2>
-    <div class="modal-juridico-texto" id="texto-juridico">Conteúdo legal...</div>
-    <button class="btn-principal" style="padding:15px; font-size:18px;" onclick="fecharModalJuridico()">Fechar Janela ✕</button>
+    
+    <h2 class="modal-juridico-titulo" 
+     id="titulo-juridico">
+      Documento Legal
+    </h2>
+    
+    <div class="modal-juridico-texto" 
+     id="texto-juridico">
+      Conteúdo legal...
+    </div>
+    
+    <button class="btn-principal" 
+     style="padding:15px; font-size:18px;" 
+     onclick="fecharModalJuridico()">
+      Fechar Janela ✕
+    </button>
+    
   </div>
 </div>
 
