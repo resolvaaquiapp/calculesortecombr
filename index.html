@@ -1,278 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcule Sorte · Gerador de Números da Sorte</title>
-<link href="https://googleapis.com" rel="stylesheet">
-<style>
-  :root {
-    --gold: #FFD700; --gold-light: #FFE980; --gold-dark: #B8860B;
-    --blue-dark: #050814; --blue-card: #0C1226; --blue-border: #24336A;
-    --text-white: #FFFFFF; --text-muted: #A0B0D0;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background-color: var(--blue-dark); color: var(--text-white);
-    font-family: 'Exo 2', sans-serif; font-size: 19px; line-height: 1.6; min-height: 100vh;
-  }
-  body::before {
-    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: 0.6;
-    background-image: radial-gradient(circle, rgba(255,174,0,.08) 1px, transparent 1px); background-size: 40px 40px;
-  }
-  .wrap { max-width: 1000px; margin: 0 auto; padding: 20px; }
-  header { background-color: #02040A; border-bottom: 2px solid var(--gold-dark); padding: 20px 0; text-align: center; }
-  .logo-area { display: flex; align-items: center; gap: 20px; justify-content: center; }
-  .logo-img { width: 90px; height: 90px; object-fit: contain; }
-  .logo-titulo { font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 38px; color: var(--gold); letter-spacing: 2px; }
-  .logo-slogan { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
-  .container-banner { width: 100%; max-width: 728px; height: 100px; margin: 20px auto; border: 2px dashed var(--gold-dark); background-color: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; border-radius: 8px; overflow: hidden; }
-  .container-banner img { width: 100%; height: 100%; object-fit: cover; }
-  .caixa-formulario, #tela-resultado, .caixa-planos { background-color: var(--blue-card); border: 2px solid var(--blue-border); border-radius: 16px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
-  #tela-resultado { display: none; border: 3px double var(--gold); text-align: center; }
-  .caixa-planos { display: none; text-align: center; }
-  .campo-grupo { display: flex; flex-direction: column; margin-bottom: 25px; }
-  .campo-grupo label { font-size: 21px; font-weight: 600; color: var(--gold-light); margin-bottom: 10px; }
-  .campo-input { background-color: #050814; border: 2px solid var(--blue-border); border-radius: 8px; padding: 18px; font-size: 21px; color: var(--text-white); width: 100%; }
-  .campo-input:focus { border-color: var(--gold); outline: none; }
-  .btn-principal { background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%); border: none; border-radius: 12px; padding: 22px; font-size: 22px; font-weight: 800; color: #050814; width: 100%; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255,215,0,0.2); margin-top: 10px; }
-  #tela-carregamento { display: none; text-align: center; padding: 60px 20px; }
-  .texto-carregamento { font-size: 26px; color: var(--gold); font-weight: 800; }
-  .resultado-anjo-nome { font-family: 'Cinzel', serif; font-size: 54px; color: var(--gold); font-weight: 900; margin: 15px 0; text-shadow: 0 0 15px rgba(255,215,0,0.4); }
-  .resultado-anjo-mensagem { font-size: 22px; line-height: 1.8; color: var(--text-white); max-width: 700px; margin: 0 auto 30px auto; padding: 20px; background-color: rgba(0,0,0,0.3); border-radius: 8px; }
-  .grade-dezenas { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
-  .bola-dezena { width: 85px; height: 85px; background-color: #16224F; border: 3px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; color: var(--text-white); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-  .card-plano { background: rgba(0,0,0,0.3); border: 2px solid var(--blue-border); border-radius: 12px; padding: 30px; margin-bottom: 25px; text-align: center; }
-  .preco-plano { font-size: 32px; color: #00E676; font-weight: 800; margin: 15px 0; }
-  .btn-comprar { display: block; text-decoration: none; text-align: center; background: linear-gradient(135deg, var(--gold), #FF9500); border-radius: 8px; padding: 18px; color: #000; font-weight: 800; font-size: 20px; text-transform: uppercase; }
-  footer { border-top: 1px solid var(--blue-border); padding-top: 30px; text-align: center; font-size: 14px; color: var(--text-muted); }
-  .caixa-aviso-legal { background-color: rgba(0, 0, 0, 0.4); border: 1px solid var(--blue-border); border-radius: 8px; padding: 25px; margin: 20px auto; text-align: justify; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcule Sorte · Gerador de Número da Sorte</title>
+  
+  <!-- Fontes Premium Legíveis -->
+  <link href="https://googleapis.com" rel="stylesheet">
+  
+  <!-- Arquivo de visual separado -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="logo-area">
-      <img src="logo.png" alt="Logo" class="logo-img">
-      <div>
-        <div class="logo-titulo">CALCULE SORTE</div>
-        <div class="logo-slogan">Transformando datas em possibilidades</div>
-      </div>
-    </div>
+
+  <!-- TOPO 100% CENTRALIZADO -->
+  <header class="topo-centralizado">
+    <img src="logo.png" alt="Logo Calcule Sorte" class="logo-img">
+    <div class="logo-titulo">CALCULE SORTE</div>
+    <div class="logo-slogan">Transformando datas em possibilidades</div>
   </header>
 
-  <div class="container-banner" id="banner-topo"></div>
+  <!-- BANNER PUBLICITÁRIO DO TOPO CENTRALIZADO -->
+  <div class="container-banner-centralizado" id="banner-topo"></div>
 
-  <!-- TELA 1: FORMULÁRIO -->
+  <!-- TELA 1: FORMULÁRIO DE ENTRADA PREMIUM -->
   <div class="caixa-formulario" id="tela-formulario">
-    <div class="campo-grupo"><label>Seu Nome Completo:</label><input type="text" id="input-nome" class="campo-input" placeholder="Digite seu nome"></div>
-    <div class="campo-grupo"><label>Sua Data de Nascimento:</label><input type="date" id="input-data" class="campo-input"></div>
-    <div class="campo-grupo"><label>Seu WhatsApp com DDD:</label><input type="tel" id="input-whats" class="campo-input" placeholder="(11) 99999-9999"></div>
+    <div class="campo-grupo">
+      <label>Seu Nome Completo:</label>
+      <input type="text" id="input-nome" class="campo-input" placeholder="Digite seu nome">
+    </div>
+    
+    <!-- NOVAS CAIXAS DE DATA INDEPENDENTES E ACESSÍVEIS -->
+    <div class="campo-grupo">
+      <label>Sua Data de Nascimento:</label>
+      <div class="grade-selecao-data">
+        
+        <select id="select-dia" class="campo-input-selecao">
+          <option value="">Dia</option>
+          <!-- Os dias de 01 a 31 serão gerados automaticamente via script -->
+        </select>
+
+        <select id="select-mes" class="campo-input-selecao">
+          <option value="">Mês</option>
+          <option value="01">Janeiro</option>
+          <option value="02">Fevereiro</option>
+          <option value="03">Março</option>
+          <option value="04">Abril</option>
+          <option value="05">Maio</option>
+          <option value="06">Junho</option>
+          <option value="07">Julho</option>
+          <option value="08">Agosto</option>
+          <option value="09">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+
+        <select id="select-ano" class="campo-input-selecao">
+          <option value="">Ano</option>
+          <!-- Os anos de 2026 até 1900 serão gerados automaticamente via script -->
+        </select>
+
+      </div>
+    </div>
+    
+    <div class="campo-grupo">
+      <label>Seu WhatsApp com DDD:</label>
+      <input type="tel" id="input-whats" class="campo-input" placeholder="(11) 99999-9999">
+    </div>
+    
     <button class="btn-principal" onclick="processarCalculoSorte()">Calcular Minha Sorte 🔮</button>
   </div>
 
-  <!-- TELA REQUISITO: CARREGAMENTO -->
-  <div id="tela-carregamento"><div class="texto-carregamento" id="mensagem-loading">Conectando ao plano astral...</div></div>
-
-  <!-- TELA 2: CERTIFICADO DE SORTE -->
-  <div id="tela-resultado">
-    <div style="font-size:20px;text-transform:uppercase;">Seu Anjo Regente Protetor é</div>
-    <div class="resultado-anjo-nome" id="nome-do-anjo">ANJO</div>
-    <div class="resultado-anjo-mensagem" id="mensagem-do-anjo">Mensagem protetora aqui.</div>
-    <div style="font-size:20px;color:var(--gold-light);font-weight:800;">Seus Números para a Mega-Sena:</div>
-    <div class="grade-dezenas" id="bloco-dezenas"></div>
-    <button class="btn-principal" id="btn-acao-resultado" onclick="voltarParaInicio()">Calcular Novo Jogo 🔄</button>
-    <div style="margin-top:15px;font-size:16px;color:var(--text-muted);" id="contador-jogos">Você usou 0 de 30 consultas gratuitas.</div>
+  <!-- TELA DE CARREGAMENTO MÁGICO -->
+  <div id="tela-carregamento">
+    <div class="texto-carregamento" id="mensagem-loading">Conectando ao plano astral...</div>
   </div>
 
-  <!-- TELA 3: OFERTA CLUBE VIP (OCULTA) -->
+  <!-- TELA 2: CERTIFICADO DE SORTE (RESULTADO) -->
+  <div id="tela-resultado">
+    <div style="font-size:22px; text-transform:uppercase; letter-spacing:1px;">Seu Anjo Regente Protetor é</div>
+    <div class="resultado-anjo-nome" id="nome-do-anjo">ANJO</div>
+    <div class="resultado-anjo-mensagem" id="mensagem-do-anjo">Mensagem protetora aqui.</div>
+    
+    <div style="font-size:22px; color:var(--gold-light); font-weight:800; text-transform:uppercase; letter-spacing:1px;">Seus Números para a Mega-Sena:</div>
+    <div class="grade-dezenas" id="bloco-dezenas"></div>
+    
+    <button class="btn-principal" id="btn-acao-resultado" onclick="voltarParaInicio()">Calcular Novo Jogo 🔄</button>
+    <div style="margin-top:20px; font-size:18px; color:var(--text-muted);" id="contador-jogos">Você usou 0 de 30 consultas gratuitas.</div>
+  </div>
+
+  <!-- TELA 3: OFERTA CLUBE VIP (OCULTA ATÉ O BLOQUEIO) -->
   <div class="caixa-planos" id="tela-planos">
-    <h2 style="color:var(--gold);font-family:'Cinzel',serif;font-size:32px;margin-bottom:10px;">CLUBE VIP ESGOTADO</h2>
-    <p style="margin-bottom:30px;color:var(--text-white);font-size:20px;">Você atingiu o limite máximo de 30 consultas gratuitas mensais. Assine para continuar:</p>
+    <h2 style="color:var(--gold); font-family:'Cinzel', serif; font-size:36px; margin-bottom:15px;">CLUBE VIP</h2>
+    <p style="margin-bottom:35px; color:var(--text-white); font-size:22px;">Você atingiu o limite máximo de 30 consultas gratuitas mensais. Assine para continuar obtendo seus números:</p>
     
     <div class="card-plano">
-      <h3 style="font-size:24px;color:var(--gold-light);">🥈 PLANO ACESSO VIP (Resumido)</h3>
-      <p style="margin-top:5px;color:var(--text-muted);">Uso diário liberado com combos de até 3 jogos por consulta enviados via Zap.</p>
+      <h3 style="font-size:26px; color:var(--gold-light);">🥈 PLANO ACESSO VIP (Resumido)</h3>
+      <p style="margin-top:8px; color:var(--text-muted); font-size:18px;">Uso diário liberado com combos de até 3 jogos por consulta enviados via Zap.</p>
       <div class="preco-plano">R$ 4,90 / mês</div>
       <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar">Quero Acesso VIP 👑</a>
     </div>
 
-    <div class="card-plano" style="border-color:var(--gold);">
-      <h3 style="font-size:24px;color:var(--gold);">🥇 PLANO EXPERT (Completo)</h3>
-      <p style="margin-top:5px;color:var(--text-muted);">Combos de 6 ou 10 jogos por consulta + Envio do Certificado de Sorte completo em PDF via Zap.</p>
+    <div class="card-plano" style="border-color:var(--gold); background-color: rgba(255,215,0,0.02);">
+      <h3 style="font-size:26px; color:var(--gold);">🥇 PLANO EXPERT (Completo)</h3>
+      <p style="margin-top:8px; color:var(--text-muted); font-size:18px;">Combos de 6 ou 10 jogos por consulta + Envio do Certificado de Sorte completo em PDF via Zap.</p>
       <div class="preco-plano">R$ 9,90 / mês</div>
       <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar" style="background:linear-gradient(135deg, #FFF, var(--gold));">Quero Plano Expert 🏆</a>
     </div>
   </div>
 
-  <div class="container-banner" id="banner-rodape"></div>
-  <footer>
-    <div style="font-size:14px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:15px; letter-spacing:1px;">
-      DADOS VIA API OFICIAL CAIXA ◆ PROBABILIDADES CALCULADAS MATEMATICAMENTE ◆ JOGUE COM RESPONSABILIDADE 🍀
+  <!-- BANNER PUBLICITÁRIO DO RODAPÉ CENTRALIZADO -->
+  <div class="container-banner-centralizado" id="banner-rodape"></div>
+
+  <!-- RODAPÉ COMPACTO E CENTRALIZADO -->
+  <footer class="rodape-centralizado">
+    <div style="font-size:15px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:20px; letter-spacing:1px; line-height:1.5;">
+      DADOS VIA API OFICIAL CAIXA ◆ PROBABILIDADES CALCULADAS MATEMATICAMENTE ◆ JOGUE WITH RESPONSABILIDADE 🍀
     </div>
-    <div class="caixa-aviso-legal">
-      <p style="font-size:13px; line-height:1.6; color:var(--text-muted);">
-        <strong>AVISO LEGAL E TERMOS DE USO REGULAMENTADOS CONFORME A LEGISLAÇÃO BRASILEIRA:</strong> 
-        O Calcule Sorte é uma ferramenta de entretenimento pessoal, estatística e análise numérica. Fica expressamente declarado, para fins cíveis e penais em todo o território nacional (em conformidade com o Marco Civil da Internet e LGPD), que este aplicativo não realiza apostas, não recebe valores monetários para jogos e não possui qualquer vínculo com a Caixa Econômica Federal. Todos os números, combinações, análises de angeologia, astrologia ou numerologia exibidos são meras sugestões matemáticas baseadas em dados históricos públicos. Não há qualquer garantia ou promessa de enriquecimento, ganho ou acerto nos sorteios oficiais. O uso deste sistema é de livre e espontânea vontade do usuário, que deve jogar com responsabilidade.
-      </p>
+
+    <div class="links-rodape-discretos">
+      <span class="link-juridico-item" onclick="abrirModalJuridico('termos')">Termos de Uso</span>
+      <span class="link-juridico-item" onclick="abrirModalJuridico('privacidade')">Políticas de Privacidade</span>
+      <span class="link-juridico-item" onclick="abrirModalJuridico('aviso')">Aviso Legal</span>
     </div>
-    <div style="font-family:'Cinzel', serif; font-size:14px; color:var(--text-white); letter-spacing:2px; margin-top:15px;">
+
+    <div style="font-family:'Cinzel', serif; font-size:15px; color:var(--text-white); letter-spacing:2px; margin-top:20px;">
       CALCULE SORTE · Transformando datas em possibilidades
     </div>
   </footer>
+
 </div>
 
-<script>
-let limiteJogos = 30;
-let jogosUsados = 0;
+<!-- JANELA MODAL FLUTUANTE DE TEXTOS LEGAIS -->
+<div class="modal-juridico-overlay" id="janela-juridica">
+  <div class="modal-juridico-caixa">
+    <h2 class="modal-juridico-titulo" id="titulo-juridico">Documento Legal</h2>
+    <div class="modal-juridico-texto" id="texto-juridico">Conteúdo legal...</div>
+    <button class="btn-principal" style="padding:15px; font-size:18px;" onclick="fecharModalJuridico()">Fechar Janela ✕</button>
+  </div>
+</div>
 
-const listaAnuncios = [
-  "anuncio1.jpg", "anuncio2.jpg", "anuncio3.jpg", "anuncio4.jpg", "anuncio5.jpg",
-  "anuncio6.jpg", "anuncio7.jpg", "anuncio8.jpg", "anuncio9.jpg", "anuncio10.jpg"
-];
-
-function rodarAnuncios() {
-  let itemTopo = listaAnuncios[Math.floor(Math.random() * listaAnuncios.length)];
-  let itemRodape = listaAnuncios[Math.floor(Math.random() * listaAnuncios.length)];
-  document.getElementById("banner-topo").innerHTML = `<img src="${itemTopo}" alt="Publicidade" onerror="this.style.display='none'">`;
-  document.getElementById("banner-rodape").innerHTML = `<img src="${itemRodape}" alt="Publicidade" onerror="this.style.display='none'">`;
-}
-
-const tabelaAnjos = [
-  { inicio: "03-20", fim: "03-24", nome: "VEHUIAH", msg: "Concede espírito empreendedor, lucidez e sucesso em assuntos difíceis." },
-  { inicio: "03-25", fim: "03-29", nome: "JELIEL", msg: "Domina a paz conjugal, acalma revoltas e traz fidelidade." },
-  { inicio: "03-30", fim: "04-03", nome: "SITAEL", msg: "Protege contra as adversidades, acidentes e fraudes financeiras." },
-  { inicio: "04-04", fim: "04-08", nome: "ELEMIAH", msg: "Protege nas viagens marítimas e ajuda nas descobertas úteis." },
-  { inicio: "04-09", fim: "04-13", nome: "MAHASIAH", msg: "Facilita o aprendizado de altas ciências e traz paz interior." },
-  { inicio: "04-14", fim: "04-18", nome: "LELAHEL", msg: "Rege as curas de doenças, as artes, a fama e a fortuna." },
-  { inicio: "04-19", fim: "04-23", nome: "ACHAIAH", msg: "Promove a paciência, o gosto pelo estudo e tarefas difíceis." },
-  { inicio: "04-24", fim: "04-28", nome: "CAHETHEL", msg: "Traz as bênçãos da terra, abundância e afasta maus espíritos." },
-  { inicio: "04-29", fim: "05-03", nome: "HAZIEL", msg: "Domina a bondade, a reconciliação e o cumprimento de promessas." },
-  { inicio: "05-04", fim: "05-08", nome: "ALADIAH", msg: "Protege contra as injustiças ocultas e auxilia na saúde." },
-  { inicio: "05-09", fim: "05-13", nome: "LAOVIAH", msg: "Concede vitórias, combate a inveja e rege grandes descobertas." },
-  { inicio: "05-14", fim: "05-18", nome: "HAHAIAH", msg: "Domina os mistérios ocultos e transforma inimigos em amigos." },
-  { inicio: "05-19", fim: "05-23", nome: "YESALEL", msg: "Favorece a amizade, a fidelidade conjugal e a expressão." },
-  { inicio: "05-24", fim: "05-28", nome: "MEBAHEL", msg: "Defensor da justiça, da verdade e da liberdade dos oprimidos." },
-  { inicio: "05-29", fim: "06-02", nome: "HARIEL", msg: "Rege as ciências, as artes e inspira sentimentos de paz." },
-  { inicio: "06-03", fim: "06-07", nome: "HAKAMIAH", msg: "Protege os líderes legítimos e ajuda contra traições ou golpes." }
-];
-
-const datasGenios = ["03-19", "05-31", "08-12", "10-24", "01-05"];
-
-window.onload = function() {
-  rodarAnuncios();
-};
-
-function processarCalculoSorte() {
-  const nome = document.getElementById("input-nome").value;
-  const dataInput = document.getElementById("input-data").value;
-  const whats = document.getElementById("input-whats").value;
-
-  if (!nome || !dataInput || !whats) {
-    alert("Por favor, preencha todos os campos com atenção!");
-    return;
-  }
-
-  if (jogosUsados >= limiteJogos) {
-    document.getElementById("tela-formulario").style.display = "none";
-    document.getElementById("tela-resultado").style.display = "none";
-    document.getElementById("tela-planos").style.display = "block";
-    return;
-  }
-
-  // Quebra de data correta para a sua planilha (ANO-MES-DIA)
-  const partesData = dataInput.split("-");
-  const anoNascimento = partesData[0];
-  const mesNascimento = partesData[1];
-  const diaNascimento = partesData[2];
-  const mesDia = mesNascimento + "-" + diaNascimento;
-
-  document.getElementById("tela-formulario").style.display = "none";
-  document.getElementById("tela-carregamento").style.display = "block";
-  let msgLoading = document.getElementById("mensagem-loading");
-  
-  setTimeout(() => { msgLoading.innerText = "Consultando o Anjo Regente da sua data..."; }, 800);
-  setTimeout(() => { msgLoading.innerText = "Alinhando os Astros com as estatísticas da Mega-Sena..."; }, 1800);
-
-  setTimeout(() => {
-    let anjoNome = "ANJO DA GUARDA";
-    let anjoMsg = "Este anjo derrama bênçãos de proteção, intuição acentuada e sabedoria em todas as suas escolhas financeiras cotidianas.";
-
-    if (datasGenios.includes(mesDia)) {
-      anjoNome = "GÊNIO DA HUMANIDADE";
-      anjoMsg = "Parabéns! Sua data possui conexão divina direta. Você recebe as bênçãos especiais de proteção de todas as falanges celestes.";
-    } else {
-      for (let anjo of tabelaAnjos) {
-        if (mesDia >= anjo.inicio && mesDia <= anjo.fim) {
-          anjoNome = anjo.nome;
-          anjoMsg = anjo.msg;
-          break;
-        }
-      }
-    }
-
-    let dezenasArr = [];
-    while (dezenasArr.length < 6) {
-      let num = Math.floor(Math.random() * 60) + 1;
-      let formatado = num < 10 ? "0" + num : "" + num;
-      if (!dezenasArr.includes(formatado)) { dezenasArr.push(formatado); }
-    }
-    dezenasArr.sort((a, b) => a - b);
-
-    let blocoDezenas = document.getElementById("bloco-dezenas");
-    blocoDezenas.innerHTML = "";
-    dezenasArr.forEach(num => {
-      blocoDezenas.innerHTML += `<div class="bola-dezena">${num}</div>`;
-    });
-
-    document.getElementById("nome-do-anjo").innerText = anjoNome;
-    document.getElementById("mensagem-do-anjo").innerText = anjoMsg;
-
-    // ENVIO INTEGRADO DIRETAMENTE PARA A SUA URL DO GOOGLE SCRIPTS
-    const urlPlanilha = "https://google.com";
-    const dadosParaEnviar = new URLSearchParams({
-      "nome": nome,
-      "whatsapp": whats,
-      "dia_nascimento": diaNascimento,
-      "mes_nascimento": mesNascimento,
-      "ano_nascimento": anoNascimento,
-      "status": "Gratuito",
-      "tipo": "Lead Site",
-      "visitantes": "1"
-    });
-
-    fetch(urlPlanilha, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: dadosParaEnviar
-    }).catch(err => console.log("Erro de envio: ", err));
-
-    jogosUsados++;
-    document.getElementById("contador-jogos").innerText = `Você usou ${jogosUsados} de 30 consultas gratuitas este mês.`;
-
-    if (jogosUsados >= limiteJogos) {
-      // Se chegou no limite, o botão muda para direcionar aos planos
-      let btnAcao = document.getElementById("btn-acao-resultado");
-      btnAcao.innerText = "Conhecer Clube VIP / Renovar 👑";
-      btnAcao.onclick = function() {
-        document.getElementById("tela-resultado").style.display = "none";
-        document.getElementById("tela-planos").style.display = "block";
-      };
-    }
-
-    document.getElementById("tela-carregamento").style.display = "none";
-    document.getElementById("tela-resultado").style.display = "block";
-    rodarAnuncios();
-  }, 3000);
-}
-
-function voltarParaInicio() {
-  document.getElementById("tela-resultado").style.display = "none";
-  document.getElementById("tela-formulario").style.display = "block";
-  document.getElementById("mensagem-loading").innerText = "Conectando ao plano astral...";
-  rodarAnuncios();
-}
-</script>
+<!-- Link do motor lógico separado -->
+<script src="script.js"></script>
 </body>
 </html>
