@@ -43,6 +43,7 @@ window.onload = function() {
       new Option(a, a);
   }
 };
+
 // BANCO DE DADOS DOS ANJOS
 const tabelaAnjos = [
   { inicio: "03-20", fim: "03-24", 
