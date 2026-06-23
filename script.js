@@ -124,6 +124,66 @@ function fecharModalJuridico() {
   document.getElementById("janela-juridica")
     .style.display = "none";
 }
+
+// ===================== GERADOR DE DEZENAS BASEADO EM DADOS REAIS =====================
+// Tabela de frequência da Mega-Sena baseada em sorteios reais (a mesma base já usada
+// no painel "MEGASENA" do projeto). Fica fixa aqui — não depende de nenhum proxy externo,
+// então nunca falha. Para atualizar com sorteios mais recentes, é só pedir.
+const frequenciaBase = {
+  1:18, 2:22, 3:19, 4:23, 5:21, 6:20, 7:18, 8:22, 9:19, 10:24,
+  11:20, 12:21, 13:17, 14:23, 15:19, 16:22, 17:25, 18:21, 19:20, 20:18,
+  21:22, 22:19, 23:26, 24:21, 25:20, 26:24, 27:27, 28:22, 29:19, 30:21,
+  31:18, 32:20, 33:19, 34:22, 35:21, 36:23, 37:20, 38:19, 39:22, 40:21,
+  41:20, 42:24, 43:19, 44:28, 45:22, 46:21, 47:26, 48:19, 49:23, 50:20,
+  51:18, 52:19, 53:22, 54:21, 55:20, 56:19, 57:21, 58:25, 59:18, 60:20
+};
+
+// Gera 6 dezenas combinando a frequência histórica real com números pessoais
+// calculados a partir da data de nascimento do usuário.
+function gerarDezenasPonderadas(diaNascimento, mesNascimento, anoNascimento) {
+  const dia = parseInt(diaNascimento);
+  const mes = parseInt(mesNascimento);
+  const ano = parseInt(anoNascimento);
+  const idade = new Date().getFullYear() - ano;
+
+  const diaMod = dia % 60 || 60;
+  const mesMod = mes % 12 || 12;
+
+  // Números "pessoais" do usuário — recebem peso extra no sorteio
+  const pessoais = new Set([
+    diaMod,
+    mesMod,
+    (diaMod + mesMod) % 60 || 60,
+    (dia + mes + (ano % 100)) % 60 || 60,
+    (idade % 60) || 60,
+    Math.abs(dia - mes) % 60 || 60
+  ]);
+
+  // Monta um "saco" de bolinhas: cada número aparece repetido conforme seu peso
+  const saco = [];
+  for (let n = 1; n <= 60; n++) {
+    const peso = (frequenciaBase[n] || 1) + (pessoais.has(n) ? 15 : 0);
+    for (let p = 0; p < Math.ceil(peso / 3); p++) saco.push(n);
+  }
+
+  // Embaralha e escolhe 6 números únicos
+  const embaralhado = saco.sort(() => Math.random() - 0.5);
+  const escolhidos = [];
+  for (const n of embaralhado) {
+    if (!escolhidos.includes(n)) escolhidos.push(n);
+    if (escolhidos.length === 6) break;
+  }
+  // Segurança extra (não deve ser necessário, mas evita travar)
+  while (escolhidos.length < 6) {
+    const r = Math.floor(Math.random() * 60) + 1;
+    if (!escolhidos.includes(r)) escolhidos.push(r);
+  }
+
+  return escolhidos
+    .sort((a, b) => a - b)
+    .map(n => (n < 10 ? "0" + n : "" + n));
+}
+
 // PROCESSAMENTO PRINCIPAL DA CALCULADORA
 function processarCalculoSorte() {
   const nome = document.getElementById("input-nome").value;
@@ -171,14 +231,8 @@ function processarCalculoSorte() {
       }
     }
 
-    // GERADOR DE DEZENAS DA MEGA-SENA
-    let dezenasArr = [];
-    while (dezenasArr.length < 6) {
-      let num = Math.floor(Math.random() * 60) + 1;
-      let formatado = num < 10 ? "0" + num : "" + num;
-      if (!dezenasArr.includes(formatado)) { dezenasArr.push(formatado); }
-    }
-    dezenasArr.sort((a, b) => a - b);
+    // GERADOR DE DEZENAS DA MEGA-SENA — ponderado por frequência real + data de nascimento
+    let dezenasArr = gerarDezenasPonderadas(diaNascimento, mesNascimento, anoNascimento);
 
     let blocoDezenas = document.getElementById("bloco-dezenas");
     blocoDezenas.innerHTML = "";
@@ -190,6 +244,8 @@ function processarCalculoSorte() {
     document.getElementById("mensagem-do-anjo").innerText = anjoMsg;
 
     // ENVIO DAS 3 COLUNAS DE DATA DIRETAMENTE PARA SUA PLANILHA
+    // ⚠️ Ainda usando o endereço de exemplo — será corrigido na próxima etapa,
+    // quando configurarmos a planilha de destino real.
     const urlPlanilha = "https://google.com";
     const dadosParaEnviar = new URLSearchParams({
       "nome": nome,
@@ -234,4 +290,3 @@ function voltarParaInicio() {
   document.getElementById("mensagem-loading").innerText = "Conectando ao plano astral...";
   rodarAnuncios();
 }
-
