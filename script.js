@@ -243,10 +243,8 @@ function processarCalculoSorte() {
     document.getElementById("nome-do-anjo").innerText = anjoNome;
     document.getElementById("mensagem-do-anjo").innerText = anjoMsg;
 
-    // ENVIO DAS 3 COLUNAS DE DATA DIRETAMENTE PARA SUA PLANILHA
-    // ⚠️ Ainda usando o endereço de exemplo — será corrigido na próxima etapa,
-    // quando configurarmos a planilha de destino real.
-    const urlPlanilha = "https://google.com";
+    // ENVIO DAS 3 COLUNAS DE DATA DIRETAMENTE PARA SUA PLANILHA (Google Sheets via Apps Script)
+    const urlPlanilha = "https://script.google.com/macros/s/AKfycbxR67mbpL9xo_eDGU6zhNOjrBDeNFFL7Wm9UZEEphA_lChpXxAyq53jiHKBCV0dW4AR/exec";
     const dadosParaEnviar = new URLSearchParams({
       "nome": nome,
       "whatsapp": whats,
