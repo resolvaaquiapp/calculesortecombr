@@ -17,9 +17,12 @@ function rodarAnuncios() {
   ];
   let rodape = listaAnuncios[
     Math.floor(Math.random() * listaAnuncios.length)
-  ];
-  document.getElementById("banner-topo")
-    .innerHTML = `<img src="${topo}" onerror="this.style.display='none'">`;
+ <div class="container-banner-centralizado" style="position: relative; overflow: hidden;">
+        <div id="carousel-top" style="position: absolute; inset: 0;"></div>
+        <button onclick="abrirAnunciante()" style="position: absolute; top: 10px; right: 10px; z-index: 20; background: linear-gradient(135deg, #f5c542, #e0a82e); color: #071428; font-weight: 700; font-size: 11px; padding: 6px 12px; border-radius: 9999px; border: none; cursor: pointer;">
+            Quero Anunciar - R$39/mês
+        </button>
+    </div>
   document.getElementById("banner-rodape")
     .innerHTML = `<img src="${rodape}" onerror="this.style.display='none'">`;
 }
