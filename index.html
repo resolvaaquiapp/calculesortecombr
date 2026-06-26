@@ -274,10 +274,59 @@
 <script>
   // Funções para o Modal de Anunciantes
   function fecharModalAnunciante() {
-    
     document.getElementById('modal-anunciante').classList.add('hidden');
   }
-async function enviarDadosPlanilha(event) { ... }
+
+  // FUNÇÃO DE ENVIO PARA A PLANILHA (V3)
+  async function enviarDadosPlanilha(event) {
+    event.preventDefault();
+    
+    // Sua URL oficial configurada com sucesso
+    const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxR67mbpL9xo_eDGU6zhNOjrBDeNFFL7Wm9UZEEphA_lChpXxAyq53jiHKBCV0dW4AR/exec"; 
+
+    const paraBase64 = file => new Promise((resolve, reject) => {
+      if (!file) resolve("");
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+
+    const fileZap = document.getElementById('foto-zap').files[0];
+    const fileCardapio = document.getElementById('foto-cardapio').files[0];
+    const fileIfood = document.getElementById('foto-ifood').files[0];
+
+    alert("Processando dados e preparando o envio das imagens. Por favor, aguarde alguns segundos...");
+
+    const dadosParaPlanilha = {
+      nome: document.getElementById('anunciante-nome').value,
+      whats: document.getElementById('anunciante-whats').value,
+      empresa: document.getElementById('anunciante-empresa').value,
+      linkZap: document.getElementById('link-zap').value,
+      linkCardapio: document.getElementById('link-cardapio').value,
+      linkIfood: document.getElementById('link-ifood').value,
+      fotoZap: await paraBase64(fileZap),
+      fotoCardapio: await paraBase64(fileCardapio),
+      fotoIfood: await paraBase64(fileIfood)
+    };
+
+    fetch(URL_GOOGLE_SCRIPT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dadosParaPlanilha)
+    })
+    .then(() => {
+      alert('Parabéns! Seu cadastro, links e fotos foram enviados com sucesso!');
+      document.getElementById('form-anunciante').reset();
+      fecharModalAnunciante();
+    })
+    .catch(erro => {
+      console.error("Erro no envio:", erro);
+      alert('Ocorreu um erro ao enviar. Verifique o link do script e tente novamente.');
+    });
+  }
+
   // Funções para o Modal Jurídico do Rodapé
   function abrirModalJuridico(tipo) {
     const titulo = document.getElementById('titulo-juridico');
@@ -291,10 +340,7 @@ async function enviarDadosPlanilha(event) { ... }
       titulo.innerText = "Políticas de Privacidade";
       texto.innerText = "Sua privacidade é importante para nós. Os dados preenchidos como Nome, Data de Nascimento e WhatsApp são utilizados estritamente para a geração das suas dezenas da sorte e personalização da experiência.";
     } else if(tipo === 'aviso') {
-      titulo.innerText = "Aviso Legal";
-      texto.innerText = "O Calcule Sorte é uma ferramenta de entretenimento estatístico e numerológico. Não possuímos vínculo com a Caixa Econômica Federal e não garantimos prêmios monetários. Jogue com moderação.";
-    }
-    
+      titulo.innerText = "Aviso Legal";    
     // Mostra a janela jurídica mudando o estilo para flex
     janela.style.display = "flex";
   }
