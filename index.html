@@ -2,59 +2,57 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" 
-   content="width=device-width, 
-   initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calcule Sorte</title>
   
-  <!-- Fontes Legíveis -->
   <link href="https://googleapis.com" rel="stylesheet">
   
-  <!-- Arquivo de Visual -->
-  <link rel="stylesheet" 
-   href="style.css">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .hidden { display: none !important; }
+    .modal-anunciante-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8); display: flex; align-items: center;
+      justify-content: center; z-index: 9999;
+    }
+    .modal-anunciante-caixa {
+      background: #071428; color: #fff; padding: 30px; border-radius: 10px;
+      max-width: 500px; width: 90%; border: 2px solid #f5c542; text-align: center;
+    }
+    .modal-anunciante-caixa h2 { color: #f5c542; margin-bottom: 15px; font-family: 'Cinzel', serif; }
+    .modal-anunciante-caixa p { margin-bottom: 20px; font-size: 16px; line-height: 1.5; }
+    .campo-modal { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #f5c542; background: #0c2242; color: #fff; box-sizing: border-box; }
+  </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- BANNER NO TOPO ABSOLUTO -->
-  <div class="container-banner-centralizado" 
-   id="banner-topo"></div>
+  <div class="container-banner-centralizado" id="banner-topo"></div>
 
-  <!-- CABEÇALHO CENTRALIZADO -->
   <header class="topo-centralizado">
-    <img src="logo.png" 
-     alt="Logo Calcule Sorte" 
-     class="logo-img">
+    <img src="logo.png" alt="Logo Calcule Sorte" class="logo-img">
     <div class="logo-slogan">
-      Transformando datas 
-      em possibilidades
+      Transformando datas em possibilidades
     </div>
   </header>
-  <!-- TELA 1: FORMULÁRIO DE ENTRADA -->
-  <div class="caixa-formulario" 
-   id="tela-formulario">
+
+  <div class="caixa-formulario" id="tela-formulario">
     
     <div class="campo-grupo">
       <label>Seu Nome Completo:</label>
-      <input type="text" 
-       id="input-nome" 
-       class="campo-input" 
-       placeholder="Digite seu nome">
+      <input type="text" id="input-nome" class="campo-input" placeholder="Digite seu nome">
     </div>
     
-    <!-- GRADE DAS 3 CAIXAS DE DATA -->
     <div class="campo-grupo">
       <label>Sua Data de Nascimento:</label>
       <div class="grade-selecao-data">
         
-        <select id="select-dia" 
-         class="campo-input-selecao">
+        <select id="select-dia" class="campo-input-selecao">
           <option value="">Dia</option>
         </select>
 
-        <select id="select-mes" 
-         class="campo-input-selecao">
+        <select id="select-mes" class="campo-input-selecao">
           <option value="">Mês</option>
           <option value="01">Janeiro</option>
           <option value="02">Fevereiro</option>
@@ -70,8 +68,7 @@
           <option value="12">Dezembro</option>
         </select>
 
-        <select id="select-ano" 
-         class="campo-input-selecao">
+        <select id="select-ano" class="campo-input-selecao">
           <option value="">Ano</option>
         </select>
 
@@ -80,192 +77,185 @@
     
     <div class="campo-grupo">
       <label>Seu WhatsApp com DDD:</label>
-      <input type="tel" 
-       id="input-whats" 
-       class="campo-input" 
-       placeholder="(11) 99999-9999">
+      <input type="tel" id="input-whats" class="campo-input" placeholder="(11) 99999-9999">
     </div>
     
-    <!-- SEU BOTÃO MÁGICO DO SEU JEITO -->
-    <button class="btn-principal" 
-     onclick="processarCalculoSorte()">
+    <button class="btn-principal" onclick="processarCalculoSorte()">
       CALCULE SORTE 🍀
     </button>
   </div>
 
-  <!-- TELA DE CARREGAMENTO MÁGICO -->
   <div id="tela-carregamento">
-    <div class="texto-carregamento" 
-     id="mensagem-loading">
+    <div class="texto-carregamento" id="mensagem-loading">
       Conectando ao plano astral...
     </div>
   </div>
-  <!-- TELA 2: CERTIFICADO DE SORTE -->
+
   <div id="tela-resultado">
-    <div style="font-size:20px; 
-     text-transform:uppercase;">
+    <div style="font-size:20px; text-transform:uppercase;">
       Seu Anjo Regente Protetor é
     </div>
     
-    <div class="resultado-anjo-nome" 
-     id="nome-do-anjo">ANJO</div>
+    <div class="resultado-anjo-nome" id="nome-do-anjo">ANJO</div>
     
-    <div class="resultado-anjo-mensagem" 
-     id="mensagem-do-anjo">
+    <div class="resultado-anjo-mensagem" id="mensagem-do-anjo">
       Mensagem protetora aqui.
     </div>
     
-    <div style="font-size:20px; 
-     font-weight:800; 
-     text-transform:uppercase;">
+    <div style="font-size:20px; font-weight:800; text-transform:uppercase;">
       Seus Números para a Mega-Sena:
     </div>
     
-    <div class="grade-dezenas" 
-     id="bloco-dezenas"></div>
+    <div class="grade-dezenas" id="bloco-dezenas"></div>
     
-    <button class="btn-principal" 
-     id="btn-acao-resultado" 
-     onclick="voltarParaInicio()">
+    <button class="btn-principal" id="btn-acao-resultado" onclick="voltarParaInicio()">
       Calcular Novo Jogo 🔄
     </button>
     
-    <div style="margin-top:15px; 
-     font-size:16px;" 
-     id="contador-jogos">
+    <div style="margin-top:15px; font-size:16px;" id="contador-jogos">
       Você usou 0 de 30 consultas grátis.
     </div>
   </div>
 
-  <!-- TELA 3: OFERTA CLUBE VIP -->
-  <div class="caixa-planos" 
-   id="tela-planos">
+  <div class="caixa-planos" id="tela-planos">
     
-    <h2 style="font-family:'Cinzel', serif; 
-     font-size:32px; 
-     margin-bottom:10px;">
+    <h2 style="font-family:'Cinzel', serif; font-size:32px; margin-bottom:10px;">
       CLUBE VIP
     </h2>
     
-    <p style="margin-bottom:30px; 
-     font-size:20px;">
-      Você atingiu o limite de 30 jogos. 
-      Assine para ter acesso ILIMITADO:
+    <p style="margin-bottom:30px; font-size:20px;">
+      Você atingiu o limite de 30 jogos. Assine para ter acesso ILIMITADO:
     </p>
     
-    <!-- CARD DO PLANO DE R$ 4,90 -->
     <div class="card-plano">
       <h3 style="font-size:23px;">
         🥈 PLANO ACESSO VIP
       </h3>
-      <p style="margin-top:5px; 
-       font-size:16px;">
-        Combos de até 3 jogos por clique 
-        + Certificado resumido no Zap.
+      <p style="margin-top:5px; font-size:16px;">
+        Combos de até 3 jogos por clique + Certificado resumido no Zap.
       </p>
       <div class="preco-plano">
         R$ 4,90 / mês
       </div>
-      <a href="https://mercadopago.com.br" 
-       target="_blank" 
-       class="btn-comprar">
+      <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar">
         Ativar Acesso VIP 👑
       </a>
     </div>
 
-    <!-- CARD DO PLANO DE R$ 9,90 -->
     <div class="card-plano">
       <h3 style="font-size:23px;">
         🥇 PLANO EXPERT
       </h3>
-      <p style="margin-top:5px; 
-       font-size:16px;">
-        Combos de 6 ou 10 jogos por clique 
-        + Certificado profundo em PDF no Zap.
+      <p style="margin-top:5px; font-size:16px;">
+        Combos de 6 ou 10 jogos por clique + Certificado profundo em PDF no Zap.
       </p>
       <div class="preco-plano">
         R$ 9,90 / mês
       </div>
-      <a href="https://mercadopago.com.br" 
-       target="_blank" 
-       class="btn-comprar">
+      <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar">
         Ativar Plano Expert 🏆
       </a>
     </div>
   </div>
-  <!-- BANNER PUBLICITÁRIO DO RODAPÉ -->
-  <div class="container-banner-centralizado" 
-   id="banner-rodape"></div>
 
-  <!-- RODAPÉ CENTRALIZADO CLEAN -->
+  <div class="container-banner-centralizado" id="banner-rodape"></div>
+
   <footer class="rodape-centralizado">
     
-    <div style="font-size:14px; 
-     font-weight:800; 
-     color:var(--gold); 
-     text-transform:uppercase; 
-     margin-bottom:15px; 
-     letter-spacing:1px; 
-     line-height:1.5;">
+    <div style="font-size:14px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:15px; letter-spacing:1px; line-height:1.5;">
       DADOS VIA API OFICIAL CAIXA ◆ PROBABILIDADES CALCULADAS MATEMATICAMENTE ◆ JOGUE COM RESPONSABILIDADE 🍀
     </div>
-<div style="text-align: center; margin: 15px 0;">
-  <button onclick="document.getElementById('modal-anunciante').classList.remove('hidden'); document.getElementById('modal-anunciante').style.display='flex';" style="background: #f5c542; color: #071428; font-family: 'Montserrat', sans-serif; font-weight: 700; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.3s;">
-    📢 Anuncie no Calcule Sorte
-  </button>
-</div>
-    <!-- Links Discretos solicitados -->
+
+    <div style="text-align: center; margin: 15px 0;">
+      <button onclick="document.getElementById('modal-anunciante').classList.remove('hidden')" style="background: #f5c542; color: #071428; font-family: 'Montserrat', sans-serif; font-weight: 700; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.3s;">
+        📢 Anuncie no Calcule Sorte
+      </button>
+    </div>
+
     <div class="links-rodape-discretos">
-      <span class="link-juridico-item" 
-       onclick="abrirModalJuridico('termos')">
+      <span class="link-juridico-item" onclick="abrirModalJuridico('termos')">
         Termos de Uso
       </span>
-      <span class="link-juridico-item" 
-       onclick="abrirModalJuridico('privacidade')">
+      <span class="link-juridico-item" onclick="abrirModalJuridico('privacidade')">
         Políticas de Privacidade
       </span>
-      <span class="link-juridico-item" 
-       onclick="abrirModalJuridico('aviso')">
+      <span class="link-juridico-item" onclick="abrirModalJuridico('aviso')">
         Aviso Legal
       </span>
     </div>
 
-    <div style="font-family:'Cinzel', serif; 
-     font-size:14px; 
-     color:var(--text-white); 
-     letter-spacing:2px; 
-     margin-top:15px;">
+    <div style="font-family:'Cinzel', serif; font-size:14px; color:var(--text-white); letter-spacing:2px; margin-top:15px;">
       CALCULE SORTE · Transformando datas em possibilidades
     </div>
   </footer>
 
 </div>
 
-<!-- JANELA MODAL FLUTUANTE DE TEXTOS LEGAIS -->
-<div class="modal-juridico-overlay" 
- id="janela-juridica">
-  <div class="modal-juridico-caixa">
+<div class="modal-anunciante-overlay hidden" id="modal-anunciante">
+  <div class="modal-anunciante-caixa">
+    <h2>Anuncie Conosco</h2>
+    <p>Preencha os dados abaixo para receber nossa tabela de preços e formatos de anúncios.</p>
     
-    <h2 class="modal-juridico-titulo" 
-     id="titulo-juridico">
-      Documento Legal
-    </h2>
+    <form action="#" onsubmit="alert('Dados de contato enviados! Entraremos em contato em breve.'); fecharModalAnunciante(); return false;">
+      <input type="text" class="campo-modal" placeholder="Seu Nome" required>
+      <input type="email" class="campo-modal" placeholder="Seu E-mail" required>
+      <input type="tel" class="campo-modal" placeholder="Seu Telefone/WhatsApp" required>
+      <input type="text" class="campo-modal" placeholder="Nome da sua Empresa" required>
+      
+      <button type="submit" class="btn-principal" style="width: 100%; padding: 12px; font-size: 16px; margin-bottom: 10px;">Enviar Proposta 🚀</button>
+    </form>
     
-    <div class="modal-juridico-texto" 
-     id="texto-juridico">
-      Conteúdo legal...
-    </div>
-    
-    <button class="btn-principal" 
-     style="padding:15px; font-size:18px;" 
-     onclick="fecharModalJuridico()">
-      Fechar Janela ✕
-    </button>
-    
+    <button class="btn-principal" style="background: #e0e0e0; color: #333; width: 100%; padding: 10px; font-size: 14px;" onclick="fecharModalAnunciante()">Cancelar ✕</button>
   </div>
 </div>
 
-<!-- Link do motor lógico separado -->
+<div class="modal-juridico-overlay" id="janela-juridica">
+  <div class="modal-juridico-caixa">
+    <h2 class="modal-juridico-titulo" id="titulo-juridico">Documento Legal</h2>
+    <div class="modal-juridico-texto" id="texto-juridico">Conteúdo legal...</div>
+    <button class="btn-principal" style="padding:15px; font-size:18px;" onclick="fecharModalJuridico()">
+      Fechar Janela ✕
+    </button>
+  </div>
+</div>
+
+<script>
+  // Funções para o Modal de Anunciantes
+  function fecharModalAnunciante() {
+    document.getElementById('modal-anunciante').classList.add('hidden');
+  }
+
+  // Funções para o Modal Jurídico do Rodapé
+  function abrirModalJuridico(tipo) {
+    const titulo = document.getElementById('titulo-juridico');
+    const texto = document.getElementById('texto-juridico');
+    const janela = document.getElementById('janela-juridica');
+
+    if(tipo === 'termos') {
+      titulo.innerText = "Termos de Uso";
+      texto.innerText = "Estes são os termos de uso do site Calcule Sorte. Ao utilizar nossos serviços, você concorda em jogar de forma responsável. Nossos cálculos baseiam-se em probabilidades matemáticas e estatísticas públicas.";
+    } else if(tipo === 'privacidade') {
+      titulo.innerText = "Políticas de Privacidade";
+      texto.innerText = "Sua privacidade é importante para nós. Os dados preenchidos como Nome, Data de Nascimento e WhatsApp são utilizados estritamente para a geração das suas dezenas da sorte e personalização da experiência.";
+    } else if(tipo === 'aviso') {
+      titulo.innerText = "Aviso Legal";
+      texto.innerText = "O Calcule Sorte é uma ferramenta de entretenimento estatístico e numerológico. Não possuímos vínculo com a Caixa Econômica Federal e não garantimos prêmios monetários. Jogue com moderação.";
+    }
+    
+    // Mostra a janela jurídica mudando o estilo para flex
+    janela.style.display = "flex";
+  }
+
+  function fecharModalJuridico() {
+    document.getElementById('janela-juridica').style.display = "none";
+  }
+
+  // Inicializa o modal jurídico como fechado ao carregar a página
+  window.onload = function() {
+    fecharModalJuridico();
+  }
+</script>
+
 <script src="script.js"></script>
 </body>
 </html>
