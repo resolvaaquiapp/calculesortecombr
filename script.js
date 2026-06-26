@@ -37,118 +37,72 @@ function criarCarousel(id) {
   }, 4500);
 }
 
-// Inicializa os carrosséis ao carregar a página
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    criarCarousel('carousel-top');
-    criarCarousel('carousel-bottom');
-  });
-} else {
+// Inicializa os carrosséis e alimenta os seletores ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+  // Inicializa anúncios
   criarCarousel('carousel-top');
   criarCarousel('carousel-bottom');
-}
   
   // Alimenta os Dias (01 a 31)
   let selectDia = document.getElementById("select-dia");
-  for (let d = 1; d <= 31; d++) {
-    let vDia = d < 10 ? "0" + d : "" + d;
-    selectDia.options[selectDia.options.length] = 
-      new Option(vDia, vDia);
+  if (selectDia) {
+    for (let d = 1; d <= 31; d++) {
+      let vDia = d < 10 ? "0" + d : "" + d;
+      selectDia.options[selectDia.options.length] = new Option(vDia, vDia);
+    }
   }
 
   // Alimenta os Anos (2026 até 1900)
   let selectAno = document.getElementById("select-ano");
-  for (let a = 2026; a >= 1900; a--) {
-    selectAno.options[selectAno.options.length] = 
-      new Option(a, a);
+  if (selectAno) {
+    for (let a = 2026; a >= 1900; a--) {
+      selectAno.options[selectAno.options.length] = new Option(a, a);
+    }
   }
-};
+});
 
 // BANCO DE DADOS DOS ANJOS
 const tabelaAnjos = [
-  { inicio: "03-20", fim: "03-24", 
-    nome: "VEHUIAH", msg: "Espírito empreendedor." },
-  { inicio: "03-25", fim: "03-29", 
-    nome: "JELIEL", msg: "Paz e fidelidade." },
-  { inicio: "03-30", fim: "04-03", 
-    nome: "SITAEL", msg: "Proteção contra adversidades." },
-  { inicio: "04-04", fim: "04-08", 
-    nome: "ELEMIAH", msg: "Proteção em viagens." },
-  { inicio: "04-09", fim: "04-13", 
-    nome: "MAHASIAH", msg: "Paz interior." },
-  { inicio: "04-14", fim: "04-18", 
-    nome: "LELAHEL", msg: "Arte, fama e fortuna." },
-  { inicio: "04-19", fim: "04-23", 
-    nome: "ACHAIAH", msg: "Paciência e estudos." },
-  { inicio: "04-24", fim: "04-28", 
-    nome: "CAHETHEL", msg: "Abundância e colheitas." },
-  { inicio: "04-29", fim: "05-03", 
-    nome: "HAZIEL", msg: "Misericórdia e promessas." },
-  { inicio: "05-04", fim: "05-08", 
-    nome: "ALADIAH", msg: "Saúde e regeneração." },
-  { inicio: "05-09", fim: "05-13", 
-    nome: "LAOVIAH", msg: "Vitória contra a inveja." },
-  { inicio: "05-14", fim: "05-18", 
-    nome: "HAHAIAH", msg: "Mistérios ocultos." },
-  { inicio: "05-19", fim: "05-23", 
-    nome: "YESALEL", msg: "Fidelidade conjugal." },
-  { inicio: "05-24", fim: "05-28", 
-    nome: "MEBAHEL", msg: "Justiça e verdade." },
-  { inicio: "05-29", fim: "06-02", 
-    nome: "HARIEL", msg: "Ciências e artes." },
-  { inicio: "06-03", fim: "06-07", 
-    nome: "HAKAMIAH", msg: "Proteção contra golpes." }
+  { inicio: "03-20", fim: "03-24", nome: "VEHUIAH", msg: "Espírito empreendedor." },
+  { inicio: "03-25", fim: "03-29", nome: "JELIEL", msg: "Paz e fidelidade." },
+  { inicio: "03-30", fim: "04-03", nome: "SITAEL", msg: "Proteção contra adversidades." },
+  { inicio: "04-04", fim: "04-08", nome: "ELEMIAH", msg: "Proteção em viagens." },
+  { inicio: "04-09", fim: "04-13", nome: "MAHASIAH", msg: "Paz interior." },
+  { inicio: "04-14", fim: "04-18", nome: "LELAHEL", msg: "Arte, fama e fortuna." },
+  { inicio: "04-19", fim: "04-23", nome: "ACHAIAH", msg: "Paciência e estudos." },
+  { inicio: "04-24", fim: "04-28", nome: "CAHETHEL", msg: "Abundância e colheitas." },
+  { inicio: "04-29", fim: "05-03", nome: "HAZIEL", msg: "Misericórdia e promessas." },
+  { inicio: "05-04", fim: "05-08", nome: "ALADIAH", msg: "Saúde e regeneração." },
+  { inicio: "05-09", fim: "05-13", nome: "LAOVIAH", msg: "Vitória contra a inveja." },
+  { inicio: "05-14", fim: "05-18", nome: "HAHAIAH", msg: "Mistérios oculos." },
+  { inicio: "05-19", fim: "05-23", nome: "YESALEL", msg: "Fidelidade conjugal." },
+  { inicio: "05-24", fim: "05-28", nome: "MEBAHEL", msg: "Justiça e verdade." },
+  { inicio: "05-29", fim: "06-02", nome: "HARIEL", msg: "Ciências e artes." },
+  { inicio: "06-03", fim: "06-07", nome: "HAKAMIAH", msg: "Proteção contra golpes." }
 ];
 
 // DATAS DOS GÊNIOS DA HUMANIDADE
-const datasGenios = [
-  "03-19", "05-31", "08-12", 
-  "10-24", "01-05"
-];
+const datasGenios = [ "03-19", "05-31", "08-12", "10-24", "01-05" ];
+
 // TEXTOS JURÍDICOS DOS POP-UPS
 const textosJuridicos = {
-  termos: "<strong>TERMOS DE USO REULAMENTADOS:</strong>" +
-    "<br><br>Uso estritamente pessoal e recreativo. " +
-    "Proibida reprodução comercial. Uso livre para " +
-    "maiores de 18 anos, cabendo ao usuário gerenciar " +
-    "seus jogos nas lotéricas oficiais.",
-    
-  privacidade: "<strong>POLÍTICA DE PRIVACIDADE (LGPD):</strong>" +
-    "<br><br>Seus dados (Nome, Nascimento e WhatsApp) " +
-    "são enviados com segurança e criptografia direto " +
-    "para o banco de dados do administrador. Não há " +
-    "compartilhamento com terceiros.",
-    
-  aviso: "<strong>AVISO LEGAL E ISENÇÃO DE PROCESSOS:</strong>" +
-    "<br><br>Este site NÃO realiza apostas, NÃO recebe " +
-    "dinheiro para jogos e NÃO tem vínculo com a Caixa. " +
-    "Os números são meras sugestões matemáticas e místicas. " +
-    "Não há garantia de acerto ou prêmios."
+  termos: "<strong>TERMOS DE USO REGULAMENTADOS:</strong><br><br>Uso estritamente pessoal e recreativo. Proibida reprodução comercial. Uso livre para maiores de 18 anos, cabendo ao usuário gerenciar seus jogos nas lotéricas oficiais.",
+  privacidade: "<strong>POLÍTICA DE PRIVACIDADE (LGPD):</strong><br><br>Seus dados (Nome, Nascimento e WhatsApp) são enviados com segurança e criptografia direto para o banco de dados do administrador. Não há compartilhamento com terceiros.",
+  aviso: "<strong>AVISO LEGAL E ISENÇÃO DE PROCESSOS:</strong><br><br>Este site NÃO realiza apostas, NÃO recebe dinheiro para jogos e NÃO tem vínculo com a Caixa. Os números são meras sugestões matemáticas e místicas. Não há garantia de acerto ou prêmios."
 };
 
 function abrirModalJuridico(tipo) {
-  let titulos = { 
-    termos: "Termos de Uso", 
-    privacidade: "Políticas de Privacidade", 
-    aviso: "Aviso Legal" 
-  };
-  document.getElementById("titulo-juridico")
-    .innerText = titulos[tipo];
-  document.getElementById("texto-juridico")
-    .innerHTML = textosJuridicos[tipo];
-  document.getElementById("janela-juridica")
-    .style.display = "flex";
+  let titulos = { termos: "Termos de Uso", privacidade: "Políticas de Privacidade", aviso: "Aviso Legal" };
+  document.getElementById("titulo-juridico").innerText = titulos[tipo];
+  document.getElementById("texto-juridico").innerHTML = textosJuridicos[tipo];
+  document.getElementById("janela-juridica").style.display = "flex";
 }
 
 function fecharModalJuridico() {
-  document.getElementById("janela-juridica")
-    .style.display = "none";
+  document.getElementById("janela-juridica").style.display = "none";
 }
 
 // ===================== GERADOR DE DEZENAS BASEADO EM DADOS REAIS =====================
-// Tabela de frequência da Mega-Sena baseada em sorteios reais (a mesma base já usada
-// no painel "MEGASENA" do projeto). Fica fixa aqui — não depende de nenhum proxy externo,
-// então nunca falha. Para atualizar com sorteios mais recentes, é só pedir.
 const frequenciaBase = {
   1:18, 2:22, 3:19, 4:23, 5:21, 6:20, 7:18, 8:22, 9:19, 10:24,
   11:20, 12:21, 13:17, 14:23, 15:19, 16:22, 17:25, 18:21, 19:20, 20:18,
@@ -158,18 +112,15 @@ const frequenciaBase = {
   51:18, 52:19, 53:22, 54:21, 55:20, 56:19, 57:21, 58:25, 59:18, 60:20
 };
 
-// Gera 6 dezenas combinando a frequência histórica real com números pessoais
-// calculados a partir da data de nascimento do usuário.
 function gerarDezenasPonderadas(diaNascimento, mesNascimento, anoNascimento) {
   const dia = parseInt(diaNascimento);
   const mes = parseInt(mesNascimento);
   const ano = parseInt(anoNascimento);
-  const idade = new Date().getFullYear() - ano;
+  const idade = 2026 - ano;
 
   const diaMod = dia % 60 || 60;
   const mesMod = mes % 12 || 12;
 
-  // Números "pessoais" do usuário — recebem peso extra no sorteio
   const pessoais = new Set([
     diaMod,
     mesMod,
@@ -179,29 +130,24 @@ function gerarDezenasPonderadas(diaNascimento, mesNascimento, anoNascimento) {
     Math.abs(dia - mes) % 60 || 60
   ]);
 
-  // Monta um "saco" de bolinhas: cada número aparece repetido conforme seu peso
   const saco = [];
   for (let n = 1; n <= 60; n++) {
     const peso = (frequenciaBase[n] || 1) + (pessoais.has(n) ? 15 : 0);
     for (let p = 0; p < Math.ceil(peso / 3); p++) saco.push(n);
   }
 
-  // Embaralha e escolhe 6 números únicos
   const embaralhado = saco.sort(() => Math.random() - 0.5);
   const escolhidos = [];
   for (const n of embaralhado) {
     if (!escolhidos.includes(n)) escolhidos.push(n);
     if (escolhidos.length === 6) break;
   }
-  // Segurança extra (não deve ser necessário, mas evita travar)
   while (escolhidos.length < 6) {
     const r = Math.floor(Math.random() * 60) + 1;
     if (!escolhidos.includes(r)) escolhidos.push(r);
   }
 
-  return escolhidos
-    .sort((a, b) => a - b)
-    .map(n => (n < 10 ? "0" + n : "" + n));
+  return escolhidos.sort((a, b) => a - b).map(n => (n < 10 ? "0" + n : "" + n));
 }
 
 // PROCESSAMENTO PRINCIPAL DA CALCULADORA
@@ -217,7 +163,6 @@ function processarCalculoSorte() {
     return;
   }
 
-  // TRAVA SE PASSAR DO LIMITE DE 30 JOGOS NO MÊS
   if (jogosUsados >= limiteJogos) {
     document.getElementById("tela-formulario").style.display = "none";
     document.getElementById("tela-resultado").style.display = "none";
@@ -251,7 +196,6 @@ function processarCalculoSorte() {
       }
     }
 
-    // GERADOR DE DEZENAS DA MEGA-SENA — ponderado por frequência real + data de nascimento
     let dezenasArr = gerarDezenasPonderadas(diaNascimento, mesNascimento, anoNascimento);
 
     let blocoDezenas = document.getElementById("bloco-dezenas");
@@ -263,7 +207,6 @@ function processarCalculoSorte() {
     document.getElementById("nome-do-anjo").innerText = anjoNome;
     document.getElementById("mensagem-do-anjo").innerText = anjoMsg;
 
-    // ENVIO DAS 3 COLUNAS DE DATA DIRETAMENTE PARA SUA PLANILHA (Google Sheets via Apps Script)
     const urlPlanilha = "https://script.google.com/macros/s/AKfycbxR67mbpL9xo_eDGU6zhNOjrBDeNFFL7Wm9UZEEphA_lChpXxAyq53jiHKBCV0dW4AR/exec";
     const dadosParaEnviar = new URLSearchParams({
       "nome": nome,
@@ -284,8 +227,7 @@ function processarCalculoSorte() {
     }).catch(err => console.log("Erro de envio: ", err));
 
     jogosUsados++;
-    document.getElementById("contador-jogos").innerText = 
-      `Você usou ${jogosUsados} de 30 consultas gratuitas este mês.`;
+    document.getElementById("contador-jogos").innerText = `Você usou ${jogosUsados} de 30 consultas gratuitas este mês.`;
 
     if (jogosUsados >= limiteJogos) {
       let btnAcao = document.getElementById("btn-acao-resultado");
@@ -298,7 +240,6 @@ function processarCalculoSorte() {
 
     document.getElementById("tela-carregamento").style.display = "none";
     document.getElementById("tela-resultado").style.display = "block";
-    rodarAnuncios();
   }, 3000);
 }
 
@@ -306,17 +247,16 @@ function voltarParaInicio() {
   document.getElementById("tela-resultado").style.display = "none";
   document.getElementById("tela-formulario").style.display = "block";
   document.getElementById("mensagem-loading").innerText = "Conectando ao plano astral...";
-  rodarAnuncios();
 }
+
 // ===== FUNÇÃO PARA ENVIAR CADASTRO DO ANUNCIANTE PARA A PLANILHA =====
 async function enviarAnuncio() {
   const URL_DO_SEU_SCRIPT = "COLE_AQUI_A_URL_DE_IMPLANTACAO_DO_SEU_GOOGLE_SCRIPT";
 
-  // Captura os dados digitados no modal de anúncio
   const nomeEmpresa = document.getElementById('ad-nome-empresa')?.value || '';
   const whatsappContato = document.getElementById('ad-whatsapp')?.value || '';
-  const linkDestino = document.getElementById('ad-link')?.value || ''; // Cardápio, Zap ou iFood
-  const fotos = document.getElementById('ad-fotos')?.value || ''; // Link ou arquivos das fotos
+  const linkDestino = document.getElementById('ad-link')?.value || '';
+  const fotos = document.getElementById('ad-fotos')?.value || '';
   const lgpd = document.getElementById('ad-lgpd')?.checked;
 
   if (!nomeEmpresa || !whatsappContato) {
@@ -330,10 +270,9 @@ async function enviarAnuncio() {
   }
 
   try {
-    // Envia os dados via POST exatamente como o seu script da planilha espera
-    const resposta = await fetch(URL_DO_SEU_SCRIPT, {
+    await fetch(URL_DO_SEU_SCRIPT, {
       method: 'POST',
-      mode: 'no-cors', // Necessário para Google Apps Script evitar erro de CORS cross-domain
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         origem: 'anunciante',
@@ -349,16 +288,9 @@ async function enviarAnuncio() {
   } catch (error) {
     console.error('Erro ao enviar anúncio:', error);
     alert('Erro ao conectar com o servidor de anúncios. Tente novamente.');
- // Alimenta os Anos (1920 até o ano atual)
-    const anoSelect = document.getElementById("ano");
-    const anoAtual = new Date().getFullYear();
-    for (let i = anoAtual; i >= 1920; i--) {
-        const opt = document.createElement("option");
-        opt.value = i;
-        opt.textContent = i;
-        anoSelect.appendChild(opt);
-    }
-    }
+  }
+}
+
 function fecharModal(id) {
   document.getElementById(id)?.classList.add('hidden');
 }
