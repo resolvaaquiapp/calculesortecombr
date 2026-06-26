@@ -2,34 +2,51 @@
 let limiteJogos = 30;
 let jogosUsados = 0;
 
-// SISTEMA DOS 10 ANÚNCIOS ROTATIVOS
-const listaAnuncios = [
-  "anuncio1.jpg", "anuncio2.jpg", 
-  "anuncio3.jpg", "anuncio4.jpg", 
-  "anuncio5.jpg", "anuncio6.jpg", 
-  "anuncio7.jpg", "anuncio8.jpg", 
-  "anuncio9.jpg", "anuncio10.jpg"
-];
+// ===== SISTEMA DOS ANÚNCIOS ROTATIVOS COM LINKS E VALORES =====
+function criarCarousel(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-function rodarAnuncios() {
-  let topo = listaAnuncios[
-    Math.floor(Math.random() * listaAnuncios.length)
+  // Lista dos seus patrocinadores. Altere os títulos, textos e links (url) quando quiser!
+  const anuncios = [
+    { titulo: "PATROCINADOR PREMIUM 1", texto: "Loja da Sorte • Clique e confira", url: "https://link-do-seu-afiliado-ou-loja.com" },
+    { titulo: "NUMEROLOGIA VIP", texto: "Descubra seu mapa astral completo", url: "https://seu-link-aqui.com" },
+    { titulo: "CURSO DE PROSPERIDADE", texto: "Atraia abundância para sua vida", url: "https://seu-link-aqui.com" },
+    { titulo: "EBOOK ANJOS PROTETORES", texto: "Conecte-se com seu guia espiritual", url: "https://seu-link-aqui.com" }
   ];
-  let rodape = listaAnuncios[
-    Math.floor(Math.random() * listaAnuncios.length)
- <div class="container-banner-centralizado" style="position: relative; overflow: hidden;">
-        <div id="carousel-top" style="position: absolute; inset: 0;"></div>
-        <button onclick="abrirAnunciante()" style="position: absolute; top: 10px; right: 10px; z-index: 20; background: linear-gradient(135deg, #f5c542, #e0a82e); color: #071428; font-weight: 700; font-size: 11px; padding: 6px 12px; border-radius: 9999px; border: none; cursor: pointer;">
-            Quero Anunciar - R$39/mês
-        </button>
-    </div>
-  document.getElementById("banner-rodape")
-    .innerHTML = `<img src="${rodape}" onerror="this.style.display='none'">`;
+
+  let idx = 0;
+
+  function render() {
+    el.innerHTML = anuncios.map((a, i) => `
+      <a href="${a.url}" target="_blank" style="position: absolute; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; gap: 15px; padding: 0 20px; text-decoration: none; transition: opacity 0.8s ease-in-out; ${i === idx ? 'opacity: 1; pointer-events: auto;' : 'opacity: 0; pointer-events: none;'} background: linear-gradient(90deg, rgba(7,20,40,0.95), rgba(11,32,63,0.85));">
+        <img src="logo.png" style="width: 55px; height: 55px; object-fit: contain; opacity: 0.8;">
+        <div style="text-align: left; font-family: 'Montserrat', sans-serif;">
+          <div style="font-weight: 700; font-size: 18px; color: #f5c542; line-height: 1.1;">${a.titulo}</div>
+          <div style="font-size: 12px; color: #e2e8f0; margin-top: 2px;">${a.texto}</div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  render();
+  // Alterna o patrocinador a cada 4.5 segundos
+  setInterval(() => { 
+    idx = (idx + 1) % anuncios.length; 
+    render(); 
+  }, 4500);
 }
 
-// INICIALIZAÇÃO AUTOMÁTICA DAS OPÇÕES
-window.onload = function() {
-  rodarAnuncios();
+// Inicializa os carrosséis ao carregar a página
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    criarCarousel('carousel-top');
+    criarCarousel('carousel-bottom');
+  });
+} else {
+  criarCarousel('carousel-top');
+  criarCarousel('carousel-bottom');
+}
   
   // Alimenta os Dias (01 a 31)
   let selectDia = document.getElementById("select-dia");
@@ -290,4 +307,55 @@ function voltarParaInicio() {
   document.getElementById("tela-formulario").style.display = "block";
   document.getElementById("mensagem-loading").innerText = "Conectando ao plano astral...";
   rodarAnuncios();
+}
+// ===== FUNÇÃO PARA ENVIAR CADASTRO DO ANUNCIANTE PARA A PLANILHA =====
+async function enviarAnuncio() {
+  const URL_DO_SEU_SCRIPT = "COLE_AQUI_A_URL_DE_IMPLANTACAO_DO_SEU_GOOGLE_SCRIPT";
+
+  // Captura os dados digitados no modal de anúncio
+  const nomeEmpresa = document.getElementById('ad-nome-empresa')?.value || '';
+  const whatsappContato = document.getElementById('ad-whatsapp')?.value || '';
+  const linkDestino = document.getElementById('ad-link')?.value || ''; // Cardápio, Zap ou iFood
+  const fotos = document.getElementById('ad-fotos')?.value || ''; // Link ou arquivos das fotos
+  const lgpd = document.getElementById('ad-lgpd')?.checked;
+
+  if (!nomeEmpresa || !whatsappContato) {
+    alert('Por favor, preencha o Nome da Empresa e o WhatsApp.');
+    return;
+  }
+
+  if (!lgpd) {
+    alert('Você precisa aceitar os termos da LGPD para continuar.');
+    return;
+  }
+
+  try {
+    // Envia os dados via POST exatamente como o seu script da planilha espera
+    const resposta = await fetch(URL_DO_SEU_SCRIPT, {
+      method: 'POST',
+      mode: 'no-cors', // Necessário para Google Apps Script evitar erro de CORS cross-domain
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        origem: 'anunciante',
+        nome_empresa: nomeEmpresa,
+        whatsapp_contato: whatsappContato,
+        link_destino: linkDestino,
+        fotos_compactadas: fotos
+      })
+    });
+
+    alert('Cadastro de anunciante enviado com sucesso! Analisaremos os dados.');
+    fecharModal('modal-anunciante');
+  } catch (error) {
+    console.error('Erro ao enviar anúncio:', error);
+    alert('Erro ao conectar com o servidor de anúncios. Tente novamente.');
+  }
+}
+
+// Funções auxiliares para abrir e fechar a janelinha do anunciante
+function abrirAnunciante() {
+  document.getElementById('modal-anunciante')?.classList.remove('hidden');
+}
+function fecharModal(id) {
+  document.getElementById(id)?.classList.add('hidden');
 }
