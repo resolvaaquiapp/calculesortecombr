@@ -350,7 +350,6 @@ async function enviarAnuncio() {
     console.error('Erro ao enviar anúncio:', error);
     alert('Erro ao conectar com o servidor de anúncios. Tente novamente.');
   }
-}
 
 // Funções auxiliares para abrir e fechar a janelinha do anunciante
 function abrirAnunciante() {
