@@ -349,12 +349,16 @@ async function enviarAnuncio() {
   } catch (error) {
     console.error('Erro ao enviar anúncio:', error);
     alert('Erro ao conectar com o servidor de anúncios. Tente novamente.');
-  }
-
-// Funções auxiliares para abrir e fechar a janelinha do anunciante
-function abrirAnunciante() {
-  document.getElementById('modal-anunciante')?.classList.remove('hidden');
-}
+ // Alimenta os Anos (1920 até o ano atual)
+    const anoSelect = document.getElementById("ano");
+    const anoAtual = new Date().getFullYear();
+    for (let i = anoAtual; i >= 1920; i--) {
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = i;
+        anoSelect.appendChild(opt);
+    }
+    }
 function fecharModal(id) {
   document.getElementById(id)?.classList.add('hidden');
 }
