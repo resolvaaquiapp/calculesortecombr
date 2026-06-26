@@ -42,7 +42,7 @@ body::before {
   border-radius: 0 0 16px 16px;
 }
 .logo-img {
-    width: 220px;          /* Aumentamos de 100px para 160px (teste esse tamanho) */
+    width: 250px;          /* Aumentamos de 100px para 160px (teste esse tamanho) */
     height: auto;          /* Mudamos para auto para não amassar a imagem */
     object-fit: contain;
     margin-bottom: 15px;
