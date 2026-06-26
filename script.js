@@ -183,18 +183,11 @@ function processarCalculoSorte() {
     let anjoNome = "ANJO DA GUARDA";
     let anjoMsg = "Este anjo derrama bênçãos de proteção e intuição.";
 
-    if (datasGenios.includes(mesDia)) {
-      anjoNome = "GÊNIO DA HUMANIDADE";
-      anjoMsg = "Conexão divina direta. Recebe bênçãos de todas as falanges.";
-    } else {
-      for (let anjo of tabelaAnjos) {
-        if (mesDia >= anjo.inicio && mesDia <= anjo.fim) {
-          anjoNome = anjo.nome;
-          anjoMsg = anjo.msg;
-          break;
-        }
-      }
-    }
+   if (datasGenios.includes(mesDia)) {
+  anjoNome = "GÊNIO DA HUMANIDADE";
+  anjoMsg = "DATAS EXCLUDENTES (GÊNIOS DA HUMANIDADE): 19 de Março / 31 de Maio / 12 de Agosto / 24 de Outubro / 05 de Janeiro. Mensagem: Conexão direta com o divino. A pessoa recebe a benção de todos os anjos.";
+}
+   
 
     let dezenasArr = gerarDezenasPonderadas(diaNascimento, mesNascimento, anoNascimento);
 
@@ -251,7 +244,7 @@ function voltarParaInicio() {
 
 // ===== FUNÇÃO PARA ENVIAR CADASTRO DO ANUNCIANTE PARA A PLANILHA =====
 async function enviarAnuncio() {
-  const URL_DO_SEU_SCRIPT = "COLE_AQUI_A_URL_DE_IMPLANTACAO_DO_SEU_GOOGLE_SCRIPT";
+  const URL_DO_SEU_SCRIPT = "https://script.google.com/macros/s/AKfycbyr4fDVFOFjlHgRStoVfOXM6-ZwIKearSj2B97tjEzeVKfq-6zoYbolwEfPtFo10mEI/exec";
 
   const nomeEmpresa = document.getElementById('ad-nome-empresa')?.value || '';
   const whatsappContato = document.getElementById('ad-whatsapp')?.value || '';
@@ -268,20 +261,28 @@ async function enviarAnuncio() {
     alert('Você precisa aceitar os termos da LGPD para continuar.');
     return;
   }
+const payload = {
+    origem: 'anunciante',
+    Nome: document.getElementById('ad-nome-empresa')?.value || '',
+    whats: document.getElementById('ad-whatsapp')?.value || '',
+    empresa: document.getElementById('ad-nome-empresa')?.value || '',
+    LinkZap: document.getElementById('ad-link')?.value || '',
+    fotoZap: document.getElementById('ad-fotos')?.value || ''
+  };
 
   try {
-    await fetch(URL_DO_SEU_SCRIPT, {
+    await fetch(https://script.google.com/macros/s/AKfycbyr4fDVFOFjlHgRStoVfOXM6-ZwIKearSj2B97tjEzeVKfq-6zoYbolwEfPtFo10mEI/exec, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        origem: 'anunciante',
-        nome_empresa: nomeEmpresa,
-        whatsapp_contato: whatsappContato,
-        link_destino: linkDestino,
-        fotos_compactadas: fotos
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
+    alert('Cadastro de anunciante enviado com sucesso!');
+    fecharModal('modal-anunciante');
+  } catch (error) {
+    console.error('Erro ao enviar:', error);
+    alert('Erro ao conectar com a planilha.');
+  }
+  
 
     alert('Cadastro de anunciante enviado com sucesso! Analisaremos os dados.');
     fecharModal('modal-anunciante');
