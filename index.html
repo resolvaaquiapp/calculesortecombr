@@ -192,20 +192,72 @@
 </div>
 
 <div class="modal-anunciante-overlay hidden" id="modal-anunciante">
-  <div class="modal-anunciante-caixa">
-    <h2>Anuncie Conosco</h2>
-    <p>Preencha os dados abaixo para receber nossa tabela de preços e formatos de anúncios.</p>
+  <div class="modal-anunciante-caixa" style="max-width: 650px; padding: 35px; font-size: 18px; max-height: 90vh; overflow-y: auto;">
     
-    <form action="#" onsubmit="alert('Dados de contato enviados! Entraremos em contato em breve.'); fecharModalAnunciante(); return false;">
-      <input type="text" class="campo-modal" placeholder="Seu Nome" required>
-      <input type="email" class="campo-modal" placeholder="Seu E-mail" required>
-      <input type="tel" class="campo-modal" placeholder="Seu Telefone/WhatsApp" required>
-      <input type="text" class="campo-modal" placeholder="Nome da sua Empresa" required>
+    <h2 style="font-size: 32px; margin-bottom: 15px; font-family: 'Cinzel', serif; color: #f5c542;">Anuncie Conosco 📢</h2>
+    <p style="font-size: 16px; margin-bottom: 20px; color: #e0e0e0; line-height: 1.4;">
+      Preencha os dados abaixo, anexe suas fotos (máximo 3) e informe seus links de atendimento para finalizar o cadastro do seu estabelecimento.
+    </p>
+    
+    <form id="form-anunciante" onsubmit="enviarDadosPlanilha(event)">
       
-      <button type="submit" class="btn-principal" style="width: 100%; padding: 12px; font-size: 16px; margin-bottom: 10px;">Enviar Proposta 🚀</button>
+      <div class="campo-grupo" style="text-align: left; margin-bottom: 12px;">
+        <label style="color: #f5c542; display: block; margin-bottom: 5px; font-size: 15px;">Seu Nome Completo:</label>
+        <input type="text" id="anunciante-nome" class="campo-modal" placeholder="Digite seu nome completo" style="font-size: 16px; padding: 12px; margin-bottom: 0;" required>
+      </div>
+
+      <div class="campo-grupo" style="text-align: left; margin-bottom: 12px;">
+        <label style="color: #f5c542; display: block; margin-bottom: 5px; font-size: 15px;">Seu WhatsApp de Contato (com DDD):</label>
+        <input type="tel" id="anunciante-whats" class="campo-modal" placeholder="(11) 99999-9999" style="font-size: 16px; padding: 12px; margin-bottom: 0;" required>
+      </div>
+
+      <div class="campo-grupo" style="text-align: left; margin-bottom: 15px;">
+        <label style="color: #f5c542; display: block; margin-bottom: 5px; font-size: 15px;">Nome da Empresa / Estabelecimento:</label>
+        <input type="text" id="anunciante-empresa" class="campo-modal" placeholder="Nome do seu negócio" style="font-size: 16px; padding: 12px; margin-bottom: 0;" required>
+      </div>
+      
+      <div style="text-align: left; margin: 15px 0; background: #091a33; padding: 15px; border-radius: 5px; border: 1px solid #112e59;">
+        <p style="font-weight: bold; color: #f5c542; margin-top: 0; margin-bottom: 10px; font-size: 16px;">🔗 Links de Pedidos e Atendimento:</p>
+        
+        <input type="url" id="link-zap" class="campo-modal" placeholder="Link do WhatsApp Business (ex: https://wa.me/...)" style="font-size: 15px; padding: 10px; margin-bottom: 10px;">
+        <input type="url" id="link-cardapio" class="campo-modal" placeholder="Link do seu Cardápio Online" style="font-size: 15px; padding: 10px; margin-bottom: 10px;">
+        <input type="url" id="link-ifood" class="campo-modal" placeholder="Link do seu iFood (se houver)" style="font-size: 15px; padding: 10px; margin-bottom: 0;">
+      </div>
+      
+      <div style="text-align: left; margin: 15px 0; background: #0c2242; padding: 15px; border-radius: 5px; border: 1px dashed #f5c542;">
+        <p style="font-weight: bold; color: #f5c542; margin-top: 0; margin-bottom: 10px; font-size: 16px;">📷 Enviar suas Fotos (Limite de 3 imagens):</p>
+        
+        <label style="display: block; margin-bottom: 10px; font-size: 14px; color: #fff;">
+          Foto 1 (WhatsApp / Fachada): <span style="color: #ff4a4a;">*</span>
+          <input type="file" id="foto-zap" accept="image/*" style="margin-top: 5px; display: block; color: #fff; font-size: 14px;" required>
+        </label>
+        
+        <label style="display: block; margin-bottom: 10px; font-size: 14px; color: #fff;">
+          Foto 2 (Cardápio / Produtos): <span style="color: #ff4a4a;">*</span>
+          <input type="file" id="foto-cardapio" accept="image/*" style="margin-top: 5px; display: block; color: #fff; font-size: 14px;" required>
+        </label>
+        
+        <label style="display: block; font-size: 14px; color: #fff;">
+          Foto 3 (iFood / Banner opcional):
+          <input type="file" id="foto-ifood" accept="image/*" style="margin-top: 5px; display: block; color: #fff; font-size: 14px;">
+        </label>
+      </div>
+
+      <div style="background: rgba(245, 197, 66, 0.1); border: 1px solid #f5c542; padding: 15px; border-radius: 5px; text-align: left; margin-bottom: 20px;">
+        <span style="color: #f5c542; font-weight: bold; font-size: 15px; display: block; margin-bottom: 5px;">⚠️ VALOR E TEMPO DE PERMANÊNCIA</span>
+        <p style="margin: 0; font-size: 14px; color: #fff; line-height: 1.5;">
+          A taxa de adesão e veiculação do anúncio na plataforma é de <strong>R$ XX,XX por mês</strong>. O tempo mínimo de permanência do contrato ativo é de <strong>30 dias</strong>, com renovação mensal simplificada para garantir a continuidade da exibição do seu negócio.
+        </p>
+      </div>
+      
+      <button type="submit" class="btn-principal" style="width: 100%; padding: 15px; font-size: 18px; margin-bottom: 12px; font-weight: bold; background: #f5c542; color: #071428; border: none; border-radius: 5px; cursor: pointer;">
+        Enviar Cadastro & Fotos 🚀
+      </button>
     </form>
     
-    <button class="btn-principal" style="background: #e0e0e0; color: #333; width: 100%; padding: 10px; font-size: 14px;" onclick="fecharModalAnunciante()">Cancelar ✕</button>
+    <button type="button" class="btn-principal" style="background: #e0e0e0; color: #333; width: 100%; padding: 12px; font-size: 15px; border: none; border-radius: 5px; cursor: pointer;" onclick="fecharModalAnunciante()">
+      Cancelar e Fechar ✕
+    </button>
   </div>
 </div>
 
@@ -222,9 +274,10 @@
 <script>
   // Funções para o Modal de Anunciantes
   function fecharModalAnunciante() {
+    
     document.getElementById('modal-anunciante').classList.add('hidden');
   }
-
+async function enviarDadosPlanilha(event) { ... }
   // Funções para o Modal Jurídico do Rodapé
   function abrirModalJuridico(tipo) {
     const titulo = document.getElementById('titulo-juridico');
