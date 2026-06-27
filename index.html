@@ -1,35 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calcule Sorte</title>
-  
-  <link href="https://googleapis.com" rel="stylesheet">
-  
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calcule Sorte · Numerologia, Astrologia & Mega-Sena</title>
 
-  <style>
-    .hidden { display: none !important; }
-    .modal-anunciante-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8); display: flex; align-items: center;
-      justify-content: center; z-index: 9999;
-    }
-    .modal-anunciante-caixa {
-      background: #071428; color: #fff; padding: 30px; border-radius: 10px;
-      max-width: 500px; width: 90%; border: 2px solid #f5c542; text-align: center;
-    }
-    .modal-anunciante-caixa h2 { color: #f5c542; margin-bottom: 15px; font-family: 'Cinzel', serif; }
-    .modal-anunciante-caixa p { margin-bottom: 20px; font-size: 16px; line-height: 1.5; }
-    .campo-modal { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #f5c542; background: #0c2242; color: #fff; box-sizing: border-box; }
-  </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
 
-  <div class="container-banner-centralizado" id="banner-topo"></div>
-
+  <!-- ======================== CABEÇALHO ======================== -->
   <header class="topo-centralizado">
     <img src="logo.png" alt="Logo Calcule Sorte" class="logo-img">
     <div class="logo-slogan">
@@ -37,17 +22,26 @@
     </div>
   </header>
 
+  <!-- ======================== STATUS DO PLANO ======================== -->
+  <div class="barra-status-plano" id="barra-status-plano">
+    <span class="tag-plano" id="tag-plano">Plano Free</span>
+    <span class="rodadas-restantes">
+      Você tem <strong id="rodadas-disponiveis">30</strong> rodadas disponíveis
+    </span>
+  </div>
+
+  <!-- ======================== TELA: FORMULÁRIO ======================== -->
   <div class="caixa-formulario" id="tela-formulario">
-    
+
     <div class="campo-grupo">
       <label>Seu Nome Completo:</label>
       <input type="text" id="input-nome" class="campo-input" placeholder="Digite seu nome">
     </div>
-    
+
     <div class="campo-grupo">
       <label>Sua Data de Nascimento:</label>
       <div class="grade-selecao-data">
-        
+
         <select id="select-dia" class="campo-input-selecao">
           <option value="">Dia</option>
         </select>
@@ -74,102 +68,123 @@
 
       </div>
     </div>
-    
+
     <div class="campo-grupo">
       <label>Seu WhatsApp com DDD:</label>
       <input type="tel" id="input-whats" class="campo-input" placeholder="(11) 99999-9999">
     </div>
-    
-    <button class="btn-principal" onclick="processarCalculoSorte()">
+
+    <div class="erro-msg" id="erro-formulario"></div>
+
+    <button class="btn-principal" id="btn-calcular" onclick="processarCalculoSorte()">
       CALCULE SORTE 🍀
     </button>
   </div>
 
+  <!-- ======================== TELA: CARREGAMENTO ======================== -->
   <div id="tela-carregamento">
     <div class="texto-carregamento" id="mensagem-loading">
-      Conectando ao plano astral...
+      Calculando sua numerologia e astrologia...
     </div>
   </div>
 
+  <!-- ======================== TELA: RESULTADO ======================== -->
   <div id="tela-resultado">
-    <div style="font-size:20px; text-transform:uppercase;">
-      Seu Anjo Regente Protetor é
+
+    <div class="resultado-bloco">
+      <div class="resultado-bloco-titulo">Índice de Sorte</div>
+      <div class="resultado-bloco-valor" id="valor-indice-sorte">87%</div>
+      <div class="resultado-bloco-texto" id="texto-indice-sorte">
+        Seu índice combina sua data de nascimento com o ciclo numerológico atual.
+      </div>
     </div>
-    
-    <div class="resultado-anjo-nome" id="nome-do-anjo">ANJO</div>
-    
-    <div class="resultado-anjo-mensagem" id="mensagem-do-anjo">
-      Mensagem protetora aqui.
+
+    <div class="resultado-bloco">
+      <div class="resultado-bloco-titulo">Numerologia</div>
+      <div class="resultado-bloco-valor" id="valor-numerologia">Número 7</div>
+      <div class="resultado-bloco-texto" id="texto-numerologia">
+        Seu número pessoal revela introspecção e busca por respostas profundas.
+      </div>
     </div>
-    
-    <div style="font-size:20px; font-weight:800; text-transform:uppercase;">
-      Seus Números para a Mega-Sena:
+
+    <div class="resultado-bloco">
+      <div class="resultado-bloco-titulo">Astrologia</div>
+      <div class="resultado-bloco-valor" id="valor-astrologia">Signo</div>
+      <div class="resultado-bloco-texto" id="texto-astrologia">
+        Seu mapa astral indica um momento favorável para decisões importantes.
+      </div>
     </div>
-    
-    <div class="grade-dezenas" id="bloco-dezenas"></div>
-    
+
+    <div class="bloco-jogos-titulo">Seus Números para a Mega-Sena</div>
+    <div id="container-jogos-gerados">
+      <!-- Linhas de jogo geradas dinamicamente pelo script.js -->
+    </div>
+
     <button class="btn-principal" id="btn-acao-resultado" onclick="voltarParaInicio()">
       Calcular Novo Jogo 🔄
     </button>
-    
-    <div style="margin-top:15px; font-size:16px;" id="contador-jogos">
-      Você usou 0 de 30 consultas grátis.
+
+    <div class="aviso-rodadas" id="aviso-rodadas">
+      Você usou <strong id="rodadas-usadas">0</strong> de <strong id="rodadas-limite">30</strong> rodadas grátis.
     </div>
   </div>
 
+  <!-- ======================== TELA: PLANOS ======================== -->
   <div class="caixa-planos" id="tela-planos">
-    
-    <h2 style="font-family:'Cinzel', serif; font-size:32px; margin-bottom:10px;">
-      CLUBE VIP
+
+    <h2 style="font-family:'Cinzel', serif; font-size:30px; margin-bottom:10px; color: var(--gold);">
+      Continue Descobrindo Sua Sorte
     </h2>
-    
-    <p style="margin-bottom:30px; font-size:20px;">
-      Você atingiu o limite de 30 jogos. Assine para ter acesso ILIMITADO:
+
+    <p style="margin-bottom:30px; font-size:18px; color: var(--text-muted);" id="texto-explicacao-planos">
+      Você usou suas rodadas grátis. Escolha um plano para continuar:
     </p>
-    
-    <div class="card-plano">
-      <h3 style="font-size:23px;">
-        🥈 PLANO ACESSO VIP
+
+    <div class="card-plano" id="card-bonus">
+      <h3 style="font-size:23px; color: var(--gold-light);">
+        🥈 PLANO BÔNUS
       </h3>
-      <p style="margin-top:5px; font-size:16px;">
-        Combos de até 3 jogos por clique + Certificado resumido no Zap.
+      <p style="margin-top:10px; font-size:16px; color: var(--text-white);" id="texto-card-bonus">
+        50 rodadas · 3 jogos gerados por rodada.
       </p>
       <div class="preco-plano">
-        R$ 4,90 / mês
+        R$ 4,90<span>cobrança única por recarga</span>
       </div>
-      <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar">
-        Ativar Acesso VIP 👑
+      <a href="https://mpago.la/1CuW65s" target="_blank" class="btn-comprar">
+        Ativar Plano Bônus 🎲
       </a>
     </div>
 
-    <div class="card-plano">
-      <h3 style="font-size:23px;">
-        🥇 PLANO EXPERT
+    <div class="card-plano destaque-expert" id="card-expert">
+      <h3 style="font-size:23px; color: var(--gold);">
+        🏆 PLANO EXPERT
       </h3>
-      <p style="margin-top:5px; font-size:16px;">
-        Combos de 6 ou 10 jogos por clique + Certificado profundo em PDF no Zap.
+      <p style="margin-top:10px; font-size:16px; color: var(--text-white);">
+        Rodadas ilimitadas · 5 jogos gerados por rodada.
       </p>
+      <ul class="lista-beneficios">
+        <li>Mega-Sena incorporada à sua numerologia</li>
+        <li>Geração combinando estatística real da Caixa</li>
+        <li>Estatísticas completas enviadas no seu WhatsApp</li>
+      </ul>
       <div class="preco-plano">
-        R$ 9,90 / mês
+        R$ 9,90 / mês<span>assinatura · permanência mínima de 90 dias</span>
       </div>
-      <a href="https://mercadopago.com.br" target="_blank" class="btn-comprar">
-        Ativar Plano Expert 🏆
+      <a href="https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=3b42a58034d1454480a05cac8f31d967" target="_blank" class="btn-comprar">
+        Ativar Plano Expert 👑
       </a>
     </div>
+
+    <button class="btn-secundario" onclick="voltarParaInicio()">
+      Voltar
+    </button>
   </div>
 
-  <div class="container-banner-centralizado" id="banner-rodape"></div>
-
+  <!-- ======================== RODAPÉ ======================== -->
   <footer class="rodape-centralizado">
-    
+
     <div style="font-size:14px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:15px; letter-spacing:1px; line-height:1.5;">
       DADOS VIA API OFICIAL CAIXA ◆ PROBABILIDADES CALCULADAS MATEMATICAMENTE ◆ JOGUE COM RESPONSABILIDADE 🍀
-    </div>
-
-    <div style="text-align: center; margin: 15px 0;">
-      <button onclick="document.getElementById('modal-anunciante').classList.remove('hidden')" style="background: #f5c542; color: #071428; font-family: 'Montserrat', sans-serif; font-weight: 700; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.3s;">
-        📢 Anuncie no Calcule Sorte
-      </button>
     </div>
 
     <div class="links-rodape-discretos">
@@ -191,81 +206,7 @@
 
 </div>
 
-<div class="modal-anunciante-overlay hidden" id="modal-anunciante">
-  <div class="modal-anunciante-caixa" style="max-width: 650px; padding: 35px; font-size: 18px; max-height: 90vh; overflow-y: auto;">
-    
-    <h2 style="font-size: 32px; margin-bottom: 15px; font-family: 'Cinzel', serif; color: #f5c542;">Anuncie Conosco 📢</h2>
-    <p style="font-size: 16px; margin-bottom: 20px; color: #e0e0e0; line-height: 1.4;">
-      Preencha os dados abaixo, anexe suas fotos (máximo 3) e informe seus links de atendimento para finalizar o cadastro do seu estabelecimento.
-    </p>
-    
-    <form id="form-anunciante" onsubmit="enviarDadosPlanilha(event)">
-      
-      <div class="campo-grupo" style="text-align: left; margin-bottom: 12px;">
-        <label style="color: #f5c542; display: block; margin-bottom: 5px; font-size: 15px;">Seu Nome Completo:</label>
-        <input type="text" id="anunciante-nome" class="campo-modal" placeholder="Digite seu nome completo" style="font-size: 16px; padding: 12px; margin-bottom: 0;" required>
-      </div>
-
-      <div class="campo-grupo" style="text-align: left; margin-bottom: 12px;">
-        <label style="color: #f5c542; display: block; margin-bottom: 5px; font-size: 15px;">Seu WhatsApp de Contato (com DDD):</label>
-        <input type="tel" id="anunciante-whats" class="campo-modal" placeholder="(11) 99999-9999" style="font-size: 16px; padding: 12px; margin-bottom: 0;" required>
-      </div>
-
-      <div class="campo-grupo" style="text-align: left; margin-bottom: 15px;">
-        <label style="color: #f5c542; display: block; margin-bottom: 5px; font-size: 15px;">Nome da Empresa / Estabelecimento:</label>
-        <input type="text" id="anunciante-empresa" class="campo-modal" placeholder="Nome do seu negócio" style="font-size: 16px; padding: 12px; margin-bottom: 0;" required>
-      </div>
-      
-      <div style="text-align: left; margin: 15px 0; background: #091a33; padding: 15px; border-radius: 5px; border: 1px solid #112e59;">
-        <p style="font-weight: bold; color: #f5c542; margin-top: 0; margin-bottom: 10px; font-size: 16px;">🔗 Links de Pedidos e Atendimento:</p>
-        
-        <input type="url" id="link-zap" class="campo-modal" placeholder="Link do WhatsApp Business (ex: https://wa.me/...)" style="font-size: 15px; padding: 10px; margin-bottom: 10px;">
-        <input type="url" id="link-cardapio" class="campo-modal" placeholder="Link do seu Cardápio Online" style="font-size: 15px; padding: 10px; margin-bottom: 10px;">
-        <input type="url" id="link-ifood" class="campo-modal" placeholder="Link do seu iFood (se houver)" style="font-size: 15px; padding: 10px; margin-bottom: 0;">
-      </div>
-      
-      <div style="text-align: left; margin: 15px 0; background: #0c2242; padding: 15px; border-radius: 5px; border: 1px dashed #f5c542;">
-        <p style="font-weight: bold; color: #f5c542; margin-top: 0; margin-bottom: 10px; font-size: 16px;">📷 Enviar suas Fotos (Limite de 3 imagens):</p>
-        
-        <label style="display: block; margin-bottom: 10px; font-size: 14px; color: #fff;">
-          Foto 1 (WhatsApp / Fachada): <span style="color: #ff4a4a;">*</span>
-          <input type="file" id="foto-zap" accept="image/*" style="margin-top: 5px; display: block; color: #fff; font-size: 14px;" required>
-        </label>
-        
-        <label style="display: block; margin-bottom: 10px; font-size: 14px; color: #fff;">
-          Foto 2 (Cardápio / Produtos): <span style="color: #ff4a4a;">*</span>
-          <input type="file" id="foto-cardapio" accept="image/*" style="margin-top: 5px; display: block; color: #fff; font-size: 14px;" required>
-        </label>
-        
-        <label style="display: block; font-size: 14px; color: #fff;">
-          Foto 3 (iFood / Banner opcional):
-          <input type="file" id="foto-ifood" accept="image/*" style="margin-top: 5px; display: block; color: #fff; font-size: 14px;">
-        </label>
-      </div>
-
-      <div style="background: rgba(245, 197, 66, 0.1); border: 1px solid #f5c542; padding: 15px; border-radius: 5px; text-align: left; margin-bottom: 20px;">
-        <span style="color: #f5c542; font-weight: bold; font-size: 15px; display: block; margin-bottom: 5px;">⚠️ VALOR E TEMPO DE PERMANÊNCIA</span>
-        <p style="margin: 0; font-size: 14px; color: #fff; line-height: 1.5;">
-          A taxa de adesão e veiculação do anúncio na plataforma é de <strong>R$ 39,00 por mês</strong>. O tempo mínimo de permanência do contrato ativo é de <strong>3 meses (90 dias)</strong>, com renovação mensal simplificada para garantir a continuidade da exibição do seu negócio.
-        </p>
-      </div>
-      <div style="text-align: left; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;">
-  <input type="checkbox" id="aceito-contrato" style="width: 20px; height: 20px; cursor: pointer; margin-top: 2px;" required>
-  <label for="aceito-contrato" style="color: #fff; font-size: 14px; cursor: pointer; line-height: 1.4;">
-    Li e estou ciente do valor de <strong>R$ 39,00/mês</strong> e do tempo mínimo de permanência de <strong>3 meses (90 dias)</strong>, aceitando os termos deste contrato. <span style="color: #ff4a4a;">*</span>
-  </label>
-</div>
-      <button type="submit" class="btn-principal" style="width: 100%; padding: 15px; font-size: 18px; margin-bottom: 12px; font-weight: bold; background: #f5c542; color: #071428; border: none; border-radius: 5px; cursor: pointer;">
-        Enviar Cadastro & Fotos 🚀
-      </button>
-    </form>
-    
-    <button type="button" class="btn-principal" style="background: #e0e0e0; color: #333; width: 100%; padding: 12px; font-size: 15px; border: none; border-radius: 5px; cursor: pointer;" onclick="fecharModalAnunciante()">
-      Cancelar e Fechar ✕
-    </button>
-  </div>
-</div>
-
+<!-- ======================== MODAL JURÍDICO ======================== -->
 <div class="modal-juridico-overlay" id="janela-juridica">
   <div class="modal-juridico-caixa">
     <h2 class="modal-juridico-titulo" id="titulo-juridico">Documento Legal</h2>
@@ -276,90 +217,10 @@
   </div>
 </div>
 
-<script>
-  // Funções para o Modal de Anunciantes
-  function fecharModalAnunciante() {
-    document.getElementById('modal-anunciante').classList.add('hidden');
-  }
-
-  // FUNÇÃO DE ENVIO PARA A PLANILHA (V3)
-  async function enviarDadosPlanilha(event) {
-    event.preventDefault();
-    
-    // Sua URL oficial configurada com sucesso
-    const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxR67mbpL9xo_eDGU6zhNOjrBDeNFFL7Wm9UZEEphA_lChpXxAyq53jiHKBCV0dW4AR/exec"; 
-
-    const paraBase64 = file => new Promise((resolve, reject) => {
-      if (!file) resolve("");
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-
-    const fileZap = document.getElementById('foto-zap').files[0];
-    const fileCardapio = document.getElementById('foto-cardapio').files[0];
-    const fileIfood = document.getElementById('foto-ifood').files[0];
-
-    alert("Processando dados e preparando o envio das imagens. Por favor, aguarde alguns segundos...");
-
-    const dadosParaPlanilha = {
-      nome: document.getElementById('anunciante-nome').value,
-      whats: document.getElementById('anunciante-whats').value,
-      empresa: document.getElementById('anunciante-empresa').value,
-      linkZap: document.getElementById('link-zap').value,
-      linkCardapio: document.getElementById('link-cardapio').value,
-      linkIfood: document.getElementById('link-ifood').value,
-      fotoZap: await paraBase64(fileZap),
-      fotoCardapio: await paraBase64(fileCardapio),
-      fotoIfood: await paraBase64(fileIfood)
-    };
-
-    fetch(URL_GOOGLE_SCRIPT, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dadosParaPlanilha)
-    })
-    .then(() => {
-      alert('Parabéns! Seu cadastro, links e fotos foram enviados com sucesso!');
-      document.getElementById('form-anunciante').reset();
-      fecharModalAnunciante();
-    })
-    .catch(erro => {
-      console.error("Erro no envio:", erro);
-      alert('Ocorreu um erro ao enviar. Verifique o link do script e tente novamente.');
-    });
-  }
-
-  // Funções para o Modal Jurídico do Rodapé
-  function abrirModalJuridico(tipo) {
-    const titulo = document.getElementById('titulo-juridico');
-    const texto = document.getElementById('texto-juridico');
-    const janela = document.getElementById('janela-juridica');
-
-    if(tipo === 'termos') {
-      titulo.innerText = "Termos de Uso";
-      texto.innerText = "Estes são os termos de uso do site Calcule Sorte. Ao utilizar nossos serviços, você concorda em jogar de forma responsável. Nossos cálculos baseiam-se em probabilidades matemáticas e estatísticas públicas.";
-    } else if(tipo === 'privacidade') {
-      titulo.innerText = "Políticas de Privacidade";
-      texto.innerText = "Sua privacidade é importante para nós. Os dados preenchidos como Nome, Data de Nascimento e WhatsApp são utilizados estritamente para a geração das suas dezenas da sorte e personalização da experiência.";
-    } else if(tipo === 'aviso') {
-      titulo.innerText = "Aviso Legal";    
-    // Mostra a janela jurídica mudando o estilo para flex
-    janela.style.display = "flex";
-  }
-
-  function fecharModalJuridico() {
-    document.getElementById('janela-juridica').style.display = "none";
-  }
-
-  // Inicializa o modal jurídico como fechado ao carregar a página
-  window.onload = function() {
-    fecharModalJuridico();
-  }
-</script>
-
+<script src="numerologia.js"></script>
+<script src="megasena.js"></script>
+<script src="api.js"></script>
+<script src="storage.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
