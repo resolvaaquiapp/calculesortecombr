@@ -1,13 +1,20 @@
-/* CONFIGURAÇÕES DE CORES E ACESSIBILIDADE VISUAL */
+/* ============================================================
+   CALCULE SORTE · V6
+   CONFIGURAÇÕES DE CORES E ACESSIBILIDADE VISUAL
+   ============================================================ */
 :root {
   --gold:       #FFD700;
   --gold-light: #FFE980;
   --gold-dark:  #B8860B;
+  --bronze:     #E8966A;
+  --bronze-light:#F4B896;
   --blue-dark:  #050814; /* Fundo escuro para descanso dos olhos */
   --blue-card:  #0C1226; /* Alto contraste interno */
   --blue-border:#24336A;
   --text-white: #FFFFFF;
   --text-muted: #A0B0D0;
+  --green-ok:   #00E676;
+  --red-alert:  #FF5252;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,6 +35,7 @@ body::before {
 }
 
 .wrap { max-width: 800px; margin: 0 auto; padding: 20px; }
+.hidden { display: none !important; }
 
 /* ── CABEÇALHO COMPLETAMENTE CENTRALIZADO ── */
 .topo-centralizado {
@@ -42,47 +50,55 @@ body::before {
   border-radius: 0 0 16px 16px;
 }
 .logo-img {
-    width: 280px;          /* Aumentamos de 100px para 160px (teste esse tamanho) */
-    height: auto;          /* Mudamos para auto para não amassar a imagem */
-    object-fit: contain;
-    margin-bottom: 15px;
+  width: 280px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 15px;
 }
 
-}
-
-.logo-titulo { 
-  font-family: 'Cinzel Decorative', serif; 
-  font-weight: 900; 
-  font-size: 42px; 
-  color: var(--gold); 
+.logo-titulo {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 900;
+  font-size: 42px;
+  color: var(--gold);
   letter-spacing: 3px;
   line-height: 1.2;
 }
 
-.logo-slogan { 
-  font-size: 14px; 
-  letter-spacing: 3px; 
-  text-transform: uppercase; 
-  color: var(--text-muted); 
-  font-weight: 600; 
+.logo-slogan {
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--bronze-light);
+  font-weight: 700;
   margin-top: 8px;
+  text-shadow: 0 0 12px rgba(232, 150, 106, 0.4);
 }
 
-/* ── BANNERS DE ANÚNCIOS ROTATIVOS ALINHADOS ── */
-.container-banner-centralizado {
-  width: 100%;
-  max-width: 728px;
-  height: 95px;
-  margin: 15px auto 25px auto;
-  border: 2px dashed var(--gold);
-  background-color: rgba(0, 0, 0, 0.5);
+/* ── BARRA DE STATUS DO PLANO (NOVO V6) ── */
+.barra-status-plano {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  overflow: hidden;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: var(--blue-card);
+  border: 1px solid var(--blue-border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  font-size: 15px;
 }
-.container-banner-centralizado img { width: 100%; height: 100%; object-fit: cover; }
+.barra-status-plano .tag-plano {
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.barra-status-plano .rodadas-restantes { color: var(--text-muted); }
+.barra-status-plano .rodadas-restantes strong { color: var(--text-white); }
 
 /* ── FORMULÁRIOS E TELAS ── */
 .caixa-formulario, #tela-resultado, .caixa-planos {
@@ -101,21 +117,22 @@ body::before {
 .campo-grupo label { font-size: 22px; font-weight: 600; color: var(--gold-light); margin-bottom: 12px; }
 
 /* ENTRADAS DE TEXTO GRANDES */
-.campo-input { 
-  background-color: #050814; 
-  border: 2px solid var(--blue-border); 
-  border-radius: 8px; 
-  padding: 18px; 
-  font-size: 21px; 
-  color: var(--text-white); 
+.campo-input {
+  background-color: #050814;
+  border: 2px solid var(--blue-border);
+  border-radius: 8px;
+  padding: 18px;
+  font-size: 21px;
+  color: var(--text-white);
   width: 100%;
+  font-family: 'Exo 2', sans-serif;
 }
 .campo-input:focus { border-color: var(--gold); outline: none; }
 
-/* ── NOVA GRADE PARA AS TRÊS CAIXAS DE SELEÇÃO DE DATA ── */
+/* ── GRADE PARA AS TRÊS CAIXAS DE SELEÇÃO DE DATA ── */
 .grade-selecao-data {
   display: grid;
-  grid-template-columns: 1fr 1.4fr 1.2fr; /* Tamanhos proporcionais para Dia, Mês e Ano */
+  grid-template-columns: 1fr 1.4fr 1.2fr;
   gap: 12px;
   width: 100%;
 }
@@ -148,23 +165,88 @@ body::before {
   text-transform: uppercase;
   box-shadow: 0 4px 15px rgba(255,215,0,0.2);
   margin-top: 10px;
+  font-family: 'Exo 2', sans-serif;
 }
+.btn-principal:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-secundario {
+  background: transparent;
+  border: 2px solid var(--blue-border);
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 100%;
+  cursor: pointer;
+  margin-top: 12px;
+  font-family: 'Exo 2', sans-serif;
+}
+.btn-secundario:hover { border-color: var(--gold-dark); color: var(--gold-light); }
 
 #tela-carregamento { display: none; text-align: center; padding: 60px 20px; }
 .texto-carregamento { font-size: 26px; color: var(--gold); font-weight: 800; }
 
-/* CERTIFICADO DO ANJO */
-.resultado-anjo-nome { font-family: 'Cinzel', serif; font-size: 54px; color: var(--gold); font-weight: 900; margin: 15px 0; text-shadow: 0 0 15px rgba(255,215,0,0.4); }
-.resultado-anjo-mensagem { font-size: 22px; line-height: 1.8; color: var(--text-white); max-width: 700px; margin: 0 auto 30px auto; padding: 20px; background-color: rgba(0,0,0,0.3); border-radius: 8px; }
+/* ── BLOCOS DO RESULTADO (V6 · substitui o bloco do Anjo) ── */
+.resultado-bloco {
+  text-align: left;
+  margin: 0 0 22px 0;
+  padding: 22px;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border-left: 4px solid var(--gold);
+}
+.resultado-bloco-titulo {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.resultado-bloco-valor {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 30px;
+  color: var(--gold);
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.resultado-bloco-texto {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-white);
+}
+
+.bloco-jogos-titulo {
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 30px 0 16px 0;
+  text-align: center;
+}
 
 /* DEZENAS DA MEGA-SENA */
-.grade-dezenas { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
-.bola-dezena { width: 85px; height: 85px; background-color: #16224F; border: 3px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; color: var(--text-white); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+.grade-dezenas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 20px 0 30px 0; }
+.linha-jogo { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+.bola-dezena { width: 64px; height: 64px; background-color: #16224F; border: 3px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; color: var(--text-white); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
-/* CARDS DE VENDAS VIP */
+@media (min-width: 600px) {
+  .bola-dezena { width: 85px; height: 85px; font-size: 36px; }
+}
+
+.aviso-rodadas { font-size: 16px; color: var(--text-muted); margin-top: 18px; }
+.aviso-rodadas strong { color: var(--gold-light); }
+
+/* ── CARDS DE VENDAS (BÔNUS / EXPERT) ── */
 .card-plano { background: rgba(0,0,0,0.3); border: 2px solid var(--blue-border); border-radius: 12px; padding: 30px; margin-bottom: 25px; text-align: center; }
-.preco-plano { font-size: 32px; color: #00E676; font-weight: 800; margin: 15px 0; }
+.card-plano.destaque-expert { border-color: var(--gold-dark); box-shadow: 0 0 25px rgba(255,215,0,0.12); }
+.preco-plano { font-size: 32px; color: var(--green-ok); font-weight: 800; margin: 15px 0; }
+.preco-plano span { font-size: 15px; color: var(--text-muted); font-weight: 600; display: block; margin-top: 4px; }
 .btn-comprar { display: block; text-decoration: none; text-align: center; background: linear-gradient(135deg, var(--gold), #FF9500); border-radius: 8px; padding: 18px; color: #000; font-weight: 800; font-size: 20px; text-transform: uppercase; }
+
+.lista-beneficios { list-style: none; text-align: left; margin: 16px 0; padding: 0; font-size: 16px; color: var(--text-white); }
+.lista-beneficios li { padding: 6px 0; padding-left: 28px; position: relative; }
+.lista-beneficios li::before { content: '✓'; position: absolute; left: 0; color: var(--green-ok); font-weight: 800; }
 
 /* ── RODAPÉ CENTRALIZADO E DISCRETO ── */
 .rodape-centralizado {
@@ -176,9 +258,20 @@ body::before {
 .link-juridico-item { color: var(--text-muted); font-size: 16px; text-decoration: none; font-weight: 600; cursor: pointer; transition: color 0.2s; }
 .link-juridico-item:hover { color: var(--gold); }
 
-/* JANELAS MODAIS DOS DOCUMENTOS LEGAIS */
+/* ── JANELAS MODAIS DOS DOCUMENTOS LEGAIS ── */
 .modal-juridico-overlay { display: none; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.85); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
 .modal-juridico-caixa { background-color: var(--blue-card); border: 2px solid var(--gold-dark); border-radius: 16px; max-width: 750px; width: 100%; max-height: 80vh; overflow-y: auto; padding: 35px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
 .modal-juridico-titulo { font-family: 'Cinzel', serif; color: var(--gold); font-size: 24px; margin-bottom: 20px; border-bottom: 1px solid var(--blue-border); padding-bottom: 10px; }
 .modal-juridico-texto { font-size: 17px; line-height: 1.7; color: var(--text-white); text-align: justify; margin-bottom: 25px; }
 .modal-juridico-texto strong { color: var(--gold-light); }
+
+/* ── MENSAGENS DE ERRO ── */
+.erro-msg { background: rgba(255,82,82,0.1); border: 1px solid rgba(255,82,82,0.4); border-radius: 8px; padding: 14px 16px; color: var(--red-alert); font-size: 15px; margin: 10px 0; display: none; }
+.erro-msg.show { display: block; }
+
+@media (max-width: 480px) {
+  body { font-size: 17px; }
+  .logo-titulo { font-size: 32px; }
+  .caixa-formulario, #tela-resultado, .caixa-planos { padding: 26px; }
+  .grade-selecao-data { grid-template-columns: 1fr; }
+}
