@@ -1,5 +1,5 @@
 // Substitua o link abaixo pela sua URL real do Google (ela deve ficar exatamente aqui)
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxXOXRp1BCEA76wk4UWtMfCOK7evFs42OMGDF0-rWg/dev";
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbwP7B5JDt8xI8MN8x3EkwG0rfkbqrA5vgRLDJ7OMbAR2s7mFJCazHcOBcHUYgAocbne/exec";
 
 function salvarConsultaNoBackend(dadosUsuario, estado) {
   // Se a URL estiver vazia ou não configurada, interrompe
