@@ -6,7 +6,7 @@
 // nome, whatsapp e data de nascimento para a planilha "Usuarios".
 // ============================================================
 
-// const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbw1zA9We9Y6J-keatb3OPYCRkLkPDHJ2GhFZ1Tsje_fV5g5nvUvvbcmnGVHJbI2L-ba/exec";
+// const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxUM5QYiwrXjVpHeF-2D0GWE9PIS8MQSwyHw8RW8Kgz_1jaJrMIfNyq0tGFdJDVoRZ5/exec";
 
 function salvarConsultaNoBackend(dadosUsuario, estado) {
   // Por enquanto, apenas registra no console para debug.
