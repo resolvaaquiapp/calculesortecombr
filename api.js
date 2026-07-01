@@ -8,13 +8,17 @@ function salvarConsultaNoBackend(dadosUsuario, estado) {
     return;
   }
 
-  // Prepara o pacote de dados exatamente como a planilha espera receber
+    // Junta o dia, mês e ano que vêm do formulário em uma data legível
+  const dataNascimento Formatada = `${dadosUsuario.dia}/${dadosUsuario.mes}/${dadosUsuario.ano}`;
+
   const payload = {
     nome: dadosUsuario.nome,
     whats: dadosUsuario.whats,
+    DataNasc: dataNascimentoFormatada, // <-- NOVO CAMPO ENVIADO!
     plano: estado.plano,
     rodadasUsadas: estado.rodadasUsadas
   };
+
     // Envia as informações em modo "no-cors" para o navegador não bloquear o envio
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
