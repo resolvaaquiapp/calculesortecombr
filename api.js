@@ -8,13 +8,13 @@ function salvarConsultaNoBackend(dadosUsuario, estado) {
     return;
   }
 
-    // Junta o dia, mês e ano que vêm do formulário em uma data legível
-  const dataNascimento Formatada = `${dadosUsuario.dia}/${dadosUsuario.mes}/${dadosUsuario.ano}`;
+     // Junta o dia, mes e ano em uma data legivel
+  const datanasc = `${dadosUsuario.dia}/${dadosUsuario.mes}/${dadosUsuario.ano}`;
 
   const payload = {
     nome: dadosUsuario.nome,
     whats: dadosUsuario.whats,
-    DataNasc: dataNascimentoFormatada, // <-- NOVO CAMPO ENVIADO!
+    dataNasc: datanasc,
     plano: estado.plano,
     rodadasUsadas: estado.rodadasUsadas
   };
