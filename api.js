@@ -15,19 +15,22 @@ function salvarConsultaNoBackend(dadosUsuario, estado) {
     plano: estado.plano,
     rodadasUsadas: estado.rodadasUsadas
   };
-  // Envia as informações em segundo plano para o Google Sheets
+    // Envia as informações em modo "no-cors" para o navegador não bloquear o envio
   fetch(URL_APPS_SCRIPT, {
     method: "POST",
-    mode: "cors",
+    mode: "no-cors",
     headers: {
       "Content-Type": "text/plain;charset=utf-8"
     },
     body: JSON.stringify(payload)
   })
-  .then(resposta => {
-    console.log("[api.js] Dados enviados com sucesso para a planilha!");
+  .then(() => {
+    // Como usamos "no-cors", assumimos que o envio foi feito com sucesso (Status 200)
+    console.log("[api.js] Dados transmitidos com sucesso para a planilha!");
   })
   .catch(erro => {
-    console.error("[api.js] Erro ao conectar com o servidor Google:", erro);
+    console.error("[api.js] Erro crítico ao disparar requisição:", erro);
   });
 }
+
+
