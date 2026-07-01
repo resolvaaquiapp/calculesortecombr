@@ -8,19 +8,18 @@ function salvarConsultaNoBackend(dadosUsuario, estado) {
     return;
   }
 
-     // Junta o dia, mes e ano em uma data legivel
-  const datanasc = `${dadosUsuario.dia}/${dadosUsuario.mes}/${dadosUsuario.ano}`;
-
-  const payload = {
+   const payload = {
     nome: dadosUsuario.nome,
     whats: dadosUsuario.whats,
-    dataNasc: datanasc,
+    dia: dadosUsuario.dia,
+    mes: dadosUsuario.mes,
+    ano: dadosUsuario.ano,
     plano: estado.plano,
     rodadasUsadas: estado.rodadasUsadas
   };
 
     // Envia as informações em modo "no-cors" para o navegador não bloquear o envio
-  fetch(URL_APPS_SCRIPT, {
+ fetch(URL_APPS_SCRIPT, {
     method: "POST",
     mode: "no-cors",
     headers: {
