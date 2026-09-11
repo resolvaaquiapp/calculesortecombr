@@ -1,1 +1,8 @@
-
+*.ps1
+Logs_Trapper/
+Arquivos_Recuperados/
+.env
+node_modules/
+.DS_Store
+test/index.spec.ts
+vitest.config.mts
