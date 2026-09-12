@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jardim das Cores</title>
+<style>
+body { background-color: #E6F7FF; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; user-select: none; }
+h1 { color: #5D9CEC; font-size: 2rem; margin-bottom: 20px; }
+#target-color { width: 150px; height: 150px; border-radius: 50%; border: 8px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; transition: background-color 0.5s ease; }
+.options { display: flex; gap: 20px; }
+.option { width: 100px; height: 100px; border-radius: 20px; cursor: pointer; border: 4px solid transparent; transition: transform 0.2s, border-color 0.2s; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.option:hover { transform: scale(1.05); }
+.option.selected { border-color: #5D9CEC; transform: scale(1.1); }
+.msg { margin-top: 20px; font-size: 1.5rem; color: #4A90E2; min-height: 40px; }
+.sound-btn { position: absolute; top: 20px; right: 20px; background: #fff; border: none; padding: 10px 20px; border-radius: 30px; cursor: pointer; color: #5D9CEC; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+</style>
+</head>
+<body>
+<button class="sound-btn" onclick="toggleSound()">🔊 Som: OFF</button>
+<h1>Encontre a cor igual!</h1>
+<div id="target-color"></div>
+<div class="options" id="options-container"></div>
+<div class="msg" id="message"></div>
+
+<script>
+const colors = [
+    { hex: '#FFB3BA', name: 'Rosa', emoji: '🌸' },
+    { hex: '#BAFFC9', name: 'Verde', emoji: '🍃' },
+    { hex: '#BAE1FF', name: 'Azul', emoji: '💧' },
+    { hex: '#FFFFBA', name: 'Amarelo', emoji: '⭐' },
+    { hex: '#E2BAFF', name: 'Roxo', emoji: '🍇' }
+];
+let currentTarget = null;
+let soundEnabled = false;
+const synth = window.speechSynthesis;
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    document.querySelector('.sound-btn').textContent = soundEnabled ? ' Som: ON' : '🔇 Som: OFF';
+}
+
+function speak(text) {
+    if (!soundEnabled) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 0.8; // Fala mais lenta e calma
+    synth.speak(utterance);
+}
+
+function newRound() {
+    currentTarget = colors[Math.floor(Math.random() * colors.length)];
+    document.getElementById('target-color').style.backgroundColor = currentTarget.hex;
+    document.getElementById('message').textContent = '';
+    
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    
+    // Embaralhar opções
+    const shuffled = [...colors].sort(() => 0.5 - Math.random()).slice(0, 3);
+    if (!shuffled.includes(currentTarget)) shuffled[0] = currentTarget;
+    shuffled.sort(() => 0.5 - Math.random());
+
+    shuffled.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.style.backgroundColor = c.hex;
+        div.textContent = c.emoji;
+        div.onclick = () => checkAnswer(c, div);
+        container.appendChild(div);
+    });
+    
+    speak(`Encontre a cor ${currentTarget.name}`);
+}
+
+function checkAnswer(color, element) {
+    if (color.hex === currentTarget.hex) {
+        element.classList.add('selected');
+        document.getElementById('message').textContent = `Muito bem! É ${color.name}.`;
+        speak(`Isso mesmo! É ${color.name}.`);
+        setTimeout(newRound, 2000);
+    } else {
+        speak('Tente outra cor.');
+    }
+}
+
+newRound();
+</script>
+</body>
+</html>
