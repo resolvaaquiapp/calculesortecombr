@@ -1,226 +1,137 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang='pt-BR'>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calcule Sorte · Numerologia, Astrologia & Mega-Sena</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>CalculeSorte | Diagnóstico Financeiro</title>
+    <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-<div class="wrap">
+    <div class='container'>
+        <header>
+            <h1>CALCULESORTE</h1>
+            <p>DIAGNÓSTICO PREVIDENCIÁRIO E FINANCEIRO // FAMÍLIA QWEN</p>
+        </header>
+        
+        <div class='cards-grid'>
+            <div class='card' onclick="openModal('jarvis')">
+                <div class='icon'>🤖</div><h2>JARVIS</h2><p>INSS, Aposentadoria e BPC</p>
+            </div>
+            <div class='card' onclick="openModal('cleiton')">
+                <div class='icon'>👷</div><h2>CLEITON</h2><p>Direitos Trabalhistas e Rescisão</p>
+            </div>
+            <div class='card' onclick="openModal('vitoria')">
+                <div class='icon'>💰</div><h2>VITÓRIA</h2><p>Saúde Financeira e Orçamento</p>
+            </div>
+            <div class='card' onclick="openModal('fernanda')">
+                <div class='icon'>🚀</div><h2>FERNANDA</h2><p>MEI e Viabilidade de Negócio</p>
+            </div>
+            <div class='card' onclick="openModal('claudia')">
+                <div class='icon'>💼</div><h2>CLÁUDIA</h2><p>Emprego, Cursos e SINE</p>
+            </div>
+        </div>
 
-  <!-- ======================== CABEÇALHO ======================== -->
-  <header class="topo-centralizado">
-    <img src="logo.png" alt="Logo Calcule Sorte" class="logo-img">
-    <div class="logo-slogan">
-      Transformando datas em possibilidades
-    </div>
-  </header>
+        <div id='modal' class='modal'>
+            <div class='modal-content'>
+                <span class='close' onclick='closeModal()'>&times;</span>
+                <h2 id='modal-title' style="color:#fff; margin-bottom:20px;"></h2>
+                <form id='calc-form'></form>
+                
+                <div id='result' class='result-area' style='display:none;'>
+                    <div class='voice-indicator'>REPRODUZINDO VOZ QWEN...</div>
+                    <strong id='res-intro'></strong><br>
+                    <span id='res-msg' style="display:block; margin:10px 0; color:#ccc;"></span>
+                    <em id='res-outro' style="color:#666; font-size:0.8em;"></em>
+                    
+                    <div id='solution' class='solution-area' style='display:none;'>
+                        <strong style="color:#00ff88;">💡 PLANO DE AÇÃO:</strong>
+                        <p id='sol-text' style="margin-top:5px; font-size:0.9em;"></p>
+                    </div>
+                </div>
 
-  <!-- ======================== STATUS DO PLANO ======================== -->
-  <div class="barra-status-plano" id="barra-status-plano">
-    <span class="tag-plano" id="tag-plano">Plano Free</span>
-    <span class="rodadas-restantes">
-      Você tem <strong id="rodadas-disponiveis">30</strong> rodadas disponíveis
-    </span>
-  </div>
-
-  <!-- ======================== TELA: FORMULÁRIO ======================== -->
-  <div class="caixa-formulario" id="tela-formulario">
-
-    <div class="campo-grupo">
-      <label>Seu Nome Completo:</label>
-      <input type="text" id="input-nome" class="campo-input" placeholder="Digite seu nome">
-    </div>
-
-    <div class="campo-grupo">
-      <label>Sua Data de Nascimento:</label>
-      <div class="grade-selecao-data">
-
-        <select id="select-dia" class="campo-input-selecao">
-          <option value="">Dia</option>
-        </select>
-
-        <select id="select-mes" class="campo-input-selecao">
-          <option value="">Mês</option>
-          <option value="01">Janeiro</option>
-          <option value="02">Fevereiro</option>
-          <option value="03">Março</option>
-          <option value="04">Abril</option>
-          <option value="05">Maio</option>
-          <option value="06">Junho</option>
-          <option value="07">Julho</option>
-          <option value="08">Agosto</option>
-          <option value="09">Setembro</option>
-          <option value="10">Outubro</option>
-          <option value="11">Novembro</option>
-          <option value="12">Dezembro</option>
-        </select>
-
-        <select id="select-ano" class="campo-input-selecao">
-          <option value="">Ano</option>
-        </select>
-
-      </div>
+                <div id='repair' class='repair-area' style='display:none;'>
+                    <strong style="color:#00aaff;">🔧 MODO REPARO ATIVADO</strong>
+                    <p id='rep-text' style="margin:8px 0; font-size:0.9em;"></p>
+                    <button class='btn-calc btn-repair' onclick='applyRepair()'>APLICAR CORREÇÃO E RECALCULAR</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="campo-grupo">
-      <label>Seu WhatsApp com DDD:</label>
-      <input type="tel" id="input-whats" class="campo-input" placeholder="(11) 99999-9999">
-    </div>
+    <script>
+        let currentPersona = '', lastData = {}, repairData = null;
+        const configs = {
+            jarvis: [{name:'tipo_calculo',label:'TIPO DE CÁLCULO',type:'select',options:['aposentadoria','auxilio_doenca','bpc_loas']},{name:'idade',label:'IDADE',type:'number'},{name:'sexo',label:'SEXO',type:'select',options:['masculino','feminino']}],
+            cleiton: [{name:'meses_trabalhados',label:'MESES TRABALHADOS',type:'number'},{name:'salario',label:'ÚLTIMO SALÁRIO (R$)',type:'number'},{name:'motivo_saida',label:'MOTIVO DA SAÍDA',type:'select',options:['demissao','pedido']}],
+            vitoria: [{name:'tipo_calculo',label:'TIPO',type:'select',options:['orcamento','mei']},{name:'renda',label:'RENDA MENSAL (R$)',type:'number'},{name:'despesas_fixas',label:'DESPESAS FIXAS (R$)',type:'number'}],
+            fernanda: [{name:'atividade',label:'ATIVIDADE DO NEGÓCIO',type:'text'}],
+            claudia: [{name:'tipo_calculo',label:'TIPO',type:'select',options:['cursos','vagas']},{name:'idade',label:'IDADE',type:'number'},{name:'cargo',label:'CARGO DESEJADO',type:'text'}]
+        };
 
-    <div class="erro-msg" id="erro-formulario"></div>
+        function openModal(p) {
+            currentPersona = p;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('modal-title').textContent = p.toUpperCase() + ' // DIAGNÓSTICO';
+            const form = document.getElementById('calc-form'); form.innerHTML = '';
+            configs[p].forEach(f => {
+                const d = document.createElement('div'); d.className = 'form-group';
+                const l = document.createElement('label'); l.textContent = f.label; d.appendChild(l);
+                if (f.type === 'select') {
+                    const s = document.createElement('select'); s.name = f.name;
+                    f.options.forEach(o => { const op = document.createElement('option'); op.value = o; op.textContent = o; s.appendChild(op); });
+                    d.appendChild(s);
+                } else { const i = document.createElement('input'); i.type = f.type; i.name = f.name; i.required = true; d.appendChild(i); }
+                form.appendChild(d);
+            });
+            const btn = document.createElement('button'); btn.type = 'submit'; btn.textContent = 'EXECUTAR DIAGNÓSTICO'; btn.className = 'btn-calc'; form.appendChild(btn);
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('repair').style.display = 'none';
+        }
 
-    <button class="btn-principal" id="btn-calcular" onclick="processarCalculoSorte()">
-      CALCULE SORTE 🍀
-    </button>
-  </div>
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-  <!-- ======================== TELA: CARREGAMENTO ======================== -->
-  <div id="tela-carregamento">
-    <div class="texto-carregamento" id="mensagem-loading">
-      Calculando sua numerologia e astrologia...
-    </div>
-  </div>
+        function applyRepair() {
+            if(repairData) {
+                Object.keys(repairData).forEach(k => {
+                    const el = document.querySelector(`[name="${k}"]`);
+                    if(el) el.value = repairData[k];
+                });
+                document.getElementById('repair').style.display = 'none';
+                document.getElementById('calc-form').dispatchEvent(new Event('submit'));
+            }
+        }
 
-  <!-- ======================== TELA: RESULTADO ======================== -->
-  <div id="tela-resultado">
+        document.getElementById('calc-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fd = new FormData(e.target); const data = {};
+            fd.forEach((v, k) => data[k] = isNaN(v) ? v : parseFloat(v));
+            lastData = data;
 
-    <div class="resultado-bloco">
-      <div class="resultado-bloco-titulo">Índice de Sorte</div>
-      <div class="resultado-bloco-valor" id="valor-indice-sorte">87%</div>
-      <div class="resultado-bloco-texto" id="texto-indice-sorte">
-        Seu índice combina sua data de nascimento com o ciclo numerológico atual.
-      </div>
-    </div>
+            try {
+                const res = await fetch(`/api/${currentPersona}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                const result = await res.json();
+                
+                if (result.error && result.reparo) {
+                    document.getElementById('repair').style.display = 'block';
+                    document.getElementById('rep-text').textContent = result.reparo.sugestao;
+                    repairData = result.reparo.dados_corrigidos || data; // Ajuste conforme retorno da API
+                    return;
+                }
 
-    <div class="resultado-bloco">
-      <div class="resultado-bloco-titulo">Numerologia</div>
-      <div class="resultado-bloco-valor" id="valor-numerologia">Número 7</div>
-      <div class="resultado-bloco-texto" id="texto-numerologia">
-        Seu número pessoal revela introspecção e busca por respostas profundas.
-      </div>
-    </div>
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('res-intro').textContent = result.introducao;
+                document.getElementById('res-msg').textContent = result.resultado;
+                document.getElementById('res-outro').textContent = result.conclusao;
+                
+                if(result.solucao) {
+                    document.getElementById('solution').style.display = 'block';
+                    document.getElementById('sol-text').textContent = result.solucao.acao;
+                }
 
-    <div class="resultado-bloco">
-      <div class="resultado-bloco-titulo">Astrologia</div>
-      <div class="resultado-bloco-valor" id="valor-astrologia">Signo</div>
-      <div class="resultado-bloco-texto" id="texto-astrologia">
-        Seu mapa astral indica um momento favorável para decisões importantes.
-      </div>
-    </div>
-
-    <div class="bloco-jogos-titulo">Seus Números para a Mega-Sena</div>
-    <div id="container-jogos-gerados">
-      <!-- Linhas de jogo geradas dinamicamente pelo script.js -->
-    </div>
-
-    <button class="btn-principal" id="btn-acao-resultado" onclick="voltarParaInicio()">
-      Calcular Novo Jogo 🔄
-    </button>
-
-    <div class="aviso-rodadas" id="aviso-rodadas">
-      Você usou <strong id="rodadas-usadas">0</strong> de <strong id="rodadas-limite">30</strong> rodadas grátis.
-    </div>
-  </div>
-
-  <!-- ======================== TELA: PLANOS ======================== -->
-  <div class="caixa-planos" id="tela-planos">
-
-    <h2 style="font-family:'Cinzel', serif; font-size:30px; margin-bottom:10px; color: var(--gold);">
-      Continue Descobrindo Sua Sorte
-    </h2>
-
-    <p style="margin-bottom:30px; font-size:18px; color: var(--text-muted);" id="texto-explicacao-planos">
-      Você usou suas rodadas grátis. Escolha um plano para continuar:
-    </p>
-
-    <div class="card-plano" id="card-bonus">
-      <h3 style="font-size:23px; color: var(--gold-light);">
-        🥈 PLANO BÔNUS
-      </h3>
-      <p style="margin-top:10px; font-size:16px; color: var(--text-white);" id="texto-card-bonus">
-        50 rodadas · 3 jogos gerados por rodada.
-      </p>
-      <div class="preco-plano">
-        R$ 4,90<span>cobrança única por recarga</span>
-      </div>
-      <a href="https://mpago.la/1CuW65s" target="_blank" class="btn-comprar">
-        Ativar Plano Bônus 🎲
-      </a>
-    </div>
-
-    <div class="card-plano destaque-expert" id="card-expert">
-      <h3 style="font-size:23px; color: var(--gold);">
-        🏆 PLANO EXPERT
-      </h3>
-      <p style="margin-top:10px; font-size:16px; color: var(--text-white);">
-        Rodadas ilimitadas · 5 jogos gerados por rodada.
-      </p>
-      <ul class="lista-beneficios">
-        <li>Mega-Sena incorporada à sua numerologia</li>
-        <li>Geração combinando estatística real da Caixa</li>
-        <li>Estatísticas completas enviadas no seu WhatsApp</li>
-      </ul>
-      <div class="preco-plano">
-        R$ 9,90 / mês<span>assinatura · permanência mínima de 90 dias</span>
-      </div>
-      <a href="https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=3b42a58034d1454480a05cac8f31d967" target="_blank" class="btn-comprar">
-        Ativar Plano Expert 👑
-      </a>
-    </div>
-
-    <button class="btn-secundario" onclick="voltarParaInicio()">
-      Voltar
-    </button>
-  </div>
-
-  <!-- ======================== RODAPÉ ======================== -->
-  <footer class="rodape-centralizado">
-
-    <div style="font-size:14px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:15px; letter-spacing:1px; line-height:1.5;">
-      DADOS VIA API OFICIAL CAIXA ◆ PROBABILIDADES CALCULADAS MATEMATICAMENTE ◆ JOGUE COM RESPONSABILIDADE 🍀
-    </div>
-
-    <div class="links-rodape-discretos">
-      <span class="link-juridico-item" onclick="abrirModalJuridico('termos')">
-        Termos de Uso
-      </span>
-      <span class="link-juridico-item" onclick="abrirModalJuridico('privacidade')">
-        Políticas de Privacidade
-      </span>
-      <span class="link-juridico-item" onclick="abrirModalJuridico('aviso')">
-        Aviso Legal
-      </span>
-    </div>
-
-    <div style="font-family:'Cinzel', serif; font-size:14px; color:var(--text-white); letter-spacing:2px; margin-top:15px;">
-      CALCULE SORTE · Transformando datas em possibilidades
-    </div>
-  </footer>
-
-</div>
-
-<!-- ======================== MODAL JURÍDICO ======================== -->
-<div class="modal-juridico-overlay" id="janela-juridica">
-  <div class="modal-juridico-caixa">
-    <h2 class="modal-juridico-titulo" id="titulo-juridico">Documento Legal</h2>
-    <div class="modal-juridico-texto" id="texto-juridico">Conteúdo legal...</div>
-    <button class="btn-principal" style="padding:15px; font-size:18px;" onclick="fecharModalJuridico()">
-      Fechar Janela ✕
-    </button>
-  </div>
-</div>
-
-<script src="numerologia.js"></script>
-<script src="megasena.js"></script>
-<script src="api.js"></script>
-<script src="storage.js"></script>
-<script src="script.js"></script>
+                const utterance = new SpeechSynthesisUtterance(`${result.introducao}. ${result.resultado}. ${result.conclusao}`);
+                utterance.lang = 'pt-BR'; speechSynthesis.speak(utterance);
+            } catch (err) { alert('Erro de conexão: ' + err.message); }
+        });
+    </script>
 </body>
 </html>
