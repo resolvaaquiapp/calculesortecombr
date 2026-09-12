@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formas Suaves</title>
+<style>
+body { background-color: #F0F4F8; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+h1 { color: #718096; font-size: 2rem; margin-bottom: 30px; }
+.target-shape { width: 120px; height: 120px; background: #A0AEC0; margin-bottom: 40px; transition: all 0.4s ease; }
+.shapes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+.shape-btn { width: 100px; height: 100px; background: #CBD5E0; cursor: pointer; transition: transform 0.2s; border: none; outline: none; }
+.shape-btn:hover { transform: scale(1.08); background: #A0AEC0; }
+.msg { margin-top: 30px; font-size: 1.8rem; color: #4A5568; min-height: 50px; }
+</style>
+</head>
+<body>
+<h1>Toque na forma igual</h1>
+<div class="target-shape" id="target"></div>
+<div class="shapes-grid" id="grid"></div>
+<div class="msg" id="msg"></div>
+
+<script>
+const shapes = [
+    { name: 'Círculo', css: 'border-radius: 50%' },
+    { name: 'Quadrado', css: 'border-radius: 15px' }, // Cantos arredondados são melhores
+    { name: 'Triângulo', css: 'clip-path: polygon(50% 0%, 0% 100%, 100% 100%); border-radius: 10px;' },
+    { name: 'Losango', css: 'transform: rotate(45deg); border-radius: 10px; width: 80px; height: 80px; margin: 10px;' }
+];
+let targetShape = null;
+
+function newRound() {
+    targetShape = shapes[Math.floor(Math.random() * shapes.length)];
+    const t = document.getElementById('target');
+    t.style.cssText = targetShape.css;
+    t.style.background = '#718096';
+    document.getElementById('msg').textContent = '';
+    
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    
+    const options = [...shapes].sort(() => 0.5 - Math.random());
+    options.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = 'shape-btn';
+        btn.style.cssText = s.css;
+        btn.onclick = () => check(s);
+        grid.appendChild(btn);
+    });
+}
+
+function check(shape) {
+    if (shape.name === targetShape.name) {
+        document.getElementById('msg').textContent = `Perfeito! ${shape.name}.`;
+        setTimeout(newRound, 1500);
+    }
+}
+newRound();
+</script>
+</body>
+</html>
